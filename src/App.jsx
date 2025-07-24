@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import store from './store/store';
 import Header from "./pages/landing/Components/Hearder";
 import Footer from "./pages/landing/Components/Footer";
-import Preloader from "./pages/landing/Components/PreLoader";
+import Preloader from "./pages/landing/Components/Preloader";
 import Home from "./pages/landing/pages/Home";
 import Solutions from "./pages/landing/pages/solutions";
 import WhyRMS from "./pages/landing/pages/whyrms";
