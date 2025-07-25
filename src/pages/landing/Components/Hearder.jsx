@@ -55,12 +55,7 @@ const Header = ({ isDashboard }) => {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-3 group">
-            <div className="bg-gradient-to-br from-[#181ed4] to-[#6a82fb] p-2 rounded-xl shadow-lg group-hover:scale-105 transition-transform duration-200">
-              <Briefcase className="h-7 w-7 text-white" />
-            </div>
-            <span className="text-3xl font-extrabold text-[#181ed4] tracking-wide group-hover:text-[#3a47d5] transition-colors duration-200">
-              RMS
-            </span>
+          <img src="https://static.vecteezy.com/system/resources/previews/010/179/524/original/rms-letter-technology-logo-design-on-white-background-rms-creative-initials-letter-it-logo-concept-rms-letter-design-vector.jpg" alt="rms" className="w-16 h-16"/>
           </Link>
           
           <nav className="hidden md:flex items-center space-x-10">

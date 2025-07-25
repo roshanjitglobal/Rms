@@ -23,9 +23,13 @@ import JdVsMonths from "./pages/companyAdmin/HR/analytics/JdVsMonths"
 import AppliedJdVsJd from "./pages/companyAdmin/HR/analytics/AppliedJdVsJd"
 import SettingsScreen from "./pages/common/Sttings"
 import ViewHR from './pages/companyAdmin/HR/ViewHR';
-import ManageJD from './pages/companyAdmin/HR/ManageJD';
 import Notifications from './pages/companyAdmin/HR/Notifications';
 import HRRegister from './pages/auth/HRRegister';
+import Dashboard from './pages/hr/Dashboard';
+import UploadResume from './pages/hr/UploadResume';
+import ManageJD from './pages/hr/Managejd';
+import InterviewScore from './pages/hr/InterviewScore';
+import JDListStatus from './pages/hr/JD/JDListStatus';
 
 const AppContent = () => {
   const location = useLocation();
@@ -72,6 +76,14 @@ const AppContent = () => {
                   <Route path="*" element={<NotFound />} />
                   <Route path="/login" element={<Login/>} />
                   <Route path="/forgot" element={<ForgotPassword/>} />
+                  {/* HR Routes */}
+                  <Route path="/hrdashboard" element={<Dashboard />} />
+                  <Route path="/managejd" element={<ManageJD />} />
+                  <Route path="/uploadresume" element={<UploadResume />} />
+                  <Route path="/interviewscore" element={<InterviewScore />} />
+                  <Route path="/jdliststatus" element={<JDListStatus />} />
+                  
+                  {/* Company Admin Routes */}
                   <Route path="/hr-dashboard" element={<HRHome />} />
                   <Route path="/analytics" element={<Navigate to="/analytics/jd-vs-months" />} />
                   <Route path="/analytics/hr-vs-jd" element={<HrVsJd />} />
@@ -81,11 +93,9 @@ const AppContent = () => {
                   <Route path="/manage-hr" element={<ManageHR />} />
                   <Route path="/settings" element={<SettingsScreen />} />
                   <Route path="/view-hr" element={<ViewHR />} />
-                  <Route path="/manage-jd" element={<ManageJD />} />
                   <Route path="/notifications" element={<Notifications />} />
                   <Route path="/hr-register" element={<HRRegister />} />
-                  <Route path="/sidebar" element={<SideBar />} />
-                  <Route path="/dashboard" element={<Navigate to="/hr-dashboard" />} />
+                  <Route path="/dashboard" element={<Navigate to="/hrdashboard" />} />
                 </Routes>
               </main>
               <Footer />
