@@ -1,7 +1,6 @@
 // src/components/Dashboard.js
 import React, { useMemo, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import SideBar from './SideBar';
 import Footer from '../../landing/Components/Footer';
 import JDTrendChart from '../../../components/charts/JDTrendChart';
 import AppliedJdVsJd from './analytics/AppliedJdVsJd';
@@ -178,14 +177,12 @@ function Dashboard() {
 
 
   return (
-    <div className="flex h-screen bg-gray-50">
-      <SideBar />
-      <div className="flex-1 flex flex-col min-h-screen">
-        <main className="flex-1 px-2 sm:px-8 lg:px-20 py-10 overflow-x-hidden">
-          {/* Hero Header */}
-          <div className="flex flex-col gap-4 mb-8">
-            <div className="flex items-center justify-between">
-              <h2 className="text-4xl font-extrabold text-gray-900">HR Analytics Dashboard</h2>
+    <div className="flex-1 flex flex-col min-h-screen">
+      <main className="flex-1 px-2 sm:px-8 lg:px-20 py-10 overflow-x-hidden">
+        {/* Hero Header */}
+        <div className="flex flex-col gap-4 mb-8">
+          <div className="flex items-center justify-between">
+            <h2 className="text-4xl font-extrabold text-gray-900">HR Analytics Dashboard</h2>
               <div className="flex items-center gap-4">
                 <select 
                   value={timeRange}

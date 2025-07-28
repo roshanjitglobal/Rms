@@ -6,7 +6,6 @@ import {
 import { Users, Briefcase, CheckCircle, Clock, X, Calendar } from 'lucide-react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import Sidebar from '../../components/hr/Sidebar';
 
 const COLORS = ['#6366f1', '#8b5cf6', '#a78bfa', '#c084fc', '#f472b6'];
 
@@ -37,7 +36,6 @@ const DUMMY_VACANCIES = [
 
 
 export default function Dashboard() {
-
   const [showLargeGraph, setShowLargeGraph] = useState(false);
   const [selectedChart, setSelectedChart] = useState(null);
   const [dateRange, setDateRange] = useState([null, null]);
@@ -75,19 +73,13 @@ export default function Dashboard() {
   const filteredDepartments = ALL_DEPARTMENTS;
 
   return (
-    <>
-      <div className="min-h-screen flex bg-white">
-        {/* Sidebar */}
-        <Sidebar />
-
-        {/* Main Content */}
-        <main className="flex-1 p-6 overflow-y-auto">
-          <div className="flex flex-wrap gap-4 mb-6">
-            <StatCard title="Applications" count="1,534" change="+24.8%" />
-            <StatCard title="Shortlisted" count="869" change="+18.2%" />
-            <StatCard title="Hired" count="236" change="+12.4%" />
-            <StatCard title="Rejected" count="429" change="-5.2%" />
-          </div>
+    <div className="bg-white p-6">
+      <div className="flex flex-wrap gap-4 mb-6">
+        <StatCard title="Applications" count="1,534" change="+24.8%" />
+        <StatCard title="Shortlisted" count="869" change="+18.2%" />
+        <StatCard title="Hired" count="236" change="+12.4%" />
+        <StatCard title="Rejected" count="429" change="-5.2%" />
+      </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             <DashboardChartCard
@@ -157,8 +149,6 @@ export default function Dashboard() {
             <TaskList />
             <ScheduleCard />
           </div>
-        </main>
-      </div>
 
       {/* Modal for Enlarged Charts and Date Filter */}
       {showLargeGraph && (
@@ -317,7 +307,7 @@ export default function Dashboard() {
           </ResponsiveContainer>
         </Modal>
       )}
-    </>
+    </div>
   );
 }
 

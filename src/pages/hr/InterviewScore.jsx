@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../../index.css";
-import Sidebar from "../../components/hr/Sidebar";
+// import Sidebar from "../../components/hr/Sidebar";
 
 // Helper: breakdown bar for skills
 function BreakdownBar({ label, percent, color }) {
@@ -33,7 +33,7 @@ const InterviewDetails = ({ candidate, onClose }) => {
   return (
     <div className="min-h-screen flex bg-white">
       {/* Sidebar */}
-      <Sidebar />
+      {/* <Sidebar /> */}
 
       {/* Main Content */}
       <main className="flex-1 p-6 overflow-y-auto">
@@ -419,7 +419,7 @@ const InterviewScore = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex">
       {/* Sidebar */}
-      <Sidebar />
+      {/* <Sidebar /> */}
       
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">

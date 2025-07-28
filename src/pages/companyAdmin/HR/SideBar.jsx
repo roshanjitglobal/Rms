@@ -1,117 +1,118 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectAllNavigationItems, fetchNavigationUpdates } from '../../../store/slices/navigationSlice';
-import { XIcon } from '../../../components/icons/Icons';
-import useResponsive from '../../../hooks/useResponsive';
+import React, { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
-  Layout as LayoutDashboard,
+  Briefcase,
   Users,
+  LayoutDashboard,
   FileText,
+  ChevronLeft,
+  ChevronRight,
   Bell,
   User,
-  Settings,
-  ChevronDown,
-  ChevronRight,
-} from 'react-feather';
+  Settings
+} from 'lucide-react';
 
-const Sidebar = ({ isOpen, onClose }) => {
+const SideBar = ({ isOpen = true, onClose }) => {
   const [collapsed, setCollapsed] = useState(false);
-  const isMobile = useResponsive();
   const location = useLocation();
-  const dispatch = useDispatch();
-  const navigationItems = useSelector(selectAllNavigationItems);
+  const navigate = useNavigate();
 
-  // Navigation items
   const mainNavItems = [
-    { id: 1, path: '/hr-dashboard', label: 'Dashboard', icon: <LayoutDashboard className="w-5 h-5" /> },
-    { id: 2, path: '/manage-hr', label: 'Manage HR', icon: <Users className="w-5 h-5" /> },
-    { id: 3, path: '/manage-jd', label: 'Manage JD', icon: <FileText className="w-5 h-5" /> },
-    { id: 4, path: '/notifications', label: 'Notifications', icon: <Bell className="w-5 h-5" /> },
-    { id: 5, path: '/Profile', label: 'Profile', icon: <User className="w-5 h-5" /> },
+    { id: 1, path: '/hr/dashboard', label: 'Dashboard', icon: <LayoutDashboard size={20} /> },
+    { id: 2, path: '/hr/manage-hr', label: 'Manage HR', icon: <Users size={20} /> },
+    // { id: 3, path: '/hr/managejd', label: 'Manage JD', icon: <FileText size={20} /> },
+    { id: 4, path: '/hr/notifications', label: 'Notifications', icon: <Bell size={20} /> },
+    { id: 5, path: '/hr/profile', label: 'Profile', icon: <User size={20} /> },
   ];
 
-  const getLinkClass = (path, isSub = false) => {
+  // Improved link class with more padding, always readable, with hover/active/focus style and gap
+  const getLinkClass = (path) => {
     const isActive = location.pathname === path;
-    const base = "flex items-center px-3 py-2 rounded-lg transition-all mx-2 group text-white hover:bg-indigo-600/60";
-    const sub = isSub ? 'pl-12 text-sm' : '';
-    const active = isActive ? 'bg-indigo-600 font-semibold' : 'hover:pl-4';
-    return `${base} ${sub} ${active}`;
+    return `
+      flex items-center gap-4 px-5 py-3 rounded-lg w-full
+      text-base font-medium transition-all duration-150
+      ${isActive
+        ? 'bg-indigo-600 text-white shadow font-semibold'
+        : 'text-gray-100 hover:bg-indigo-500/30 hover:text-white'}
+      focus:outline focus:outline-2 focus:outline-indigo-300
+      whitespace-nowrap overflow-visible
+    `;
   };
 
-  const sidebarClasses = `lg:sticky top-16 lg:top-0 z-40 transform overflow-y-auto transition-all duration-300 ease-in-out scrollbar-thin scrollbar-thumb-indigo-400 scrollbar-track-transparent
-    ${collapsed ? 'w-20' : 'w-64'} 
-    ${isOpen ? 'fixed translate-x-0 shadow-2xl' : 'fixed -translate-x-full lg:translate-x-0'} 
-    bg-gradient-to-br from-[#181ed4]/90 via-[#3a47d5]/90 to-[#6a82fb]/90 text-white h-[calc(100vh-4rem)] border-r border-indigo-900`;
+  const handleNavigation = (path) => {
+    navigate(path);
+    if (window.innerWidth < 1024) onClose?.();
+  };
 
-  const overlayClasses = `fixed inset-0 bg-black bg-opacity-50 z-30 ${isOpen ? 'block' : 'hidden'} lg:hidden`;
+  const sidebarClasses = `
+    fixed lg:relative top-0 left-0 z-40 h-screen select-none
+    bg-gradient-to-b from-indigo-700 via-indigo-800 to-indigo-900 text-white
+    shadow-xl border-r border-indigo-950/25
+    transition-all duration-300 ease-in-out
+    flex flex-col
+    ${collapsed ? 'w-20' : 'w-64'}
+    ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+  `;
+
+  const overlayClasses = `
+    fixed inset-0 bg-black/50 z-30 transition-opacity duration-300 lg:hidden
+    ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}
+  `;
 
   return (
     <>
-      {isMobile && isOpen && (
-        <div className={overlayClasses} onClick={onClose} aria-label="Close sidebar overlay" />
-      )}
-      <div className={sidebarClasses} role="navigation" aria-label="Sidebar Navigation">
-        {/* Top */}
-        <div className="flex items-center justify-between h-20 px-4 border-b border-indigo-800 bg-indigo-800/50">
+      {isOpen && <div className={overlayClasses} onClick={onClose} aria-label="Close sidebar" />}
+      <aside className={sidebarClasses}>
+        <div className="flex items-center justify-between h-16 pl-5 pr-2 border-b border-indigo-400/20">
+          <div className="flex items-center">
+            <Briefcase size={28} className="text-indigo-200" />
+            {!collapsed && (
+              <span className="ml-3 text-xl font-extrabold tracking-wide text-white">Company Portal</span>
+            )}
+          </div>
           <button
-            onClick={() => setCollapsed((v) => !v)}
+            onClick={() => setCollapsed(!collapsed)}
+            className="p-2 ml-2 text-indigo-200 hover:bg-indigo-700/30 rounded-lg transition-colors"
             aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-            className="p-2 text-gray-300 hover:text-white"
           >
-            <svg
-              width="24"
-              height="24"
-              fill="none"
-              stroke="currentColor"
-              className={`transition-transform duration-200 ${collapsed ? 'rotate-180' : ''}`}
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
+            {collapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
           </button>
-          {isMobile && (
-            <button onClick={onClose} className="p-2 text-gray-300 hover:text-white" aria-label="Close sidebar">
-              <XIcon className="h-7 w-7" />
-            </button>
-          )}
         </div>
-
-        {/* Navigation */}
-        <nav className="py-4">
-          {mainNavItems.map(({ id, path, label, icon }) => (
-            <NavLink
-              key={id}
-              to={path}
-              className={getLinkClass(path)}
-              title={collapsed ? label : undefined}
-              aria-label={label}
-            >
-              <span className="flex items-center w-full">
-                <span className={`text-xl ${collapsed ? 'mx-auto' : 'mr-3'}`}>{icon}</span>
-                {!collapsed && <span>{label}</span>}
-              </span>
-            </NavLink>
-          ))}
-
-          {/* Settings */}
-          <div className="mt-6">
-            <NavLink
-              to="/settings"
-              className={getLinkClass('/settings')}
-              title={collapsed ? 'Settings' : undefined}
-              aria-label="Settings"
-            >
-              <div className="flex items-center">
-                <Settings className={`w-5 h-5 ${collapsed ? 'mx-auto' : 'mr-3'}`} />
-                {!collapsed && <span>Settings</span>}
-              </div>
-            </NavLink>
+        {/* Main Nav */}
+        <nav className="flex-1 py-6 overflow-y-auto space-y-1 custom-scrollbar">
+          <div className="flex flex-col gap-1">
+            {mainNavItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => handleNavigation(item.path)}
+                title={item.label}
+                className={`${getLinkClass(item.path)} group`}
+                aria-current={location.pathname === item.path ? "page" : undefined}
+              >
+                <span className="shrink-0 text-white">
+                  {item.icon}
+                </span>
+                <span className={`${collapsed ? 'hidden' : 'block'} ml-2`}>
+                  {item.label}
+                </span>
+              </button>
+            ))}
           </div>
         </nav>
-      </div>
+        {/* Bottom Settings Button */}
+        <div className="p-4 border-t border-indigo-400/20">
+          <button
+            className="flex items-center w-full gap-4 p-3 rounded-lg text-indigo-100 hover:bg-indigo-600/40 hover:text-white transition-colors group"
+            onClick={() => handleNavigation('/settings')}
+            title={collapsed ? "Settings" : undefined}
+          >
+            <Settings size={20} className="group-hover:scale-110 transition-transform" />
+            {!collapsed && <span className="truncate font-medium">Settings</span>}
+          </button>
+        </div>
+      </aside>
     </>
   );
 };
 
-export default Sidebar;
+export default SideBar;

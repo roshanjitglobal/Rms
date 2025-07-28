@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import Sidebar from '../../components/hr/Sidebar';
+// import Sidebar from '../../components/hr/Sidebar';
 
 // Constants
 const ALLOWED_FILE_TYPES = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
@@ -325,7 +325,7 @@ const ManageJD = ({ handleSearch, handleJDCreate, handleCVUpload }) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex">
       {/* Sidebar */}
-      <Sidebar />
+      {/* <Sidebar /> */}
       
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">

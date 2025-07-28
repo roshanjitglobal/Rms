@@ -7,9 +7,37 @@ import { useNavigate } from 'react-router-dom';
 const Header = ({ isDashboard }) => {
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const location = useLocation();
   const [isMobileProductsOpen, setIsMobileProductsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const location = useLocation();
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  // Handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+      if (window.innerWidth >= 768) {
+        setIsMobileMenuOpen(false);
+        document.body.style.overflow = '';
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Handle body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
   
   const solutionsRef = useRef(null);
 
@@ -50,15 +78,31 @@ const Header = ({ isDashboard }) => {
     transition: { duration: 0.2 }
   };
 
+  // Hide body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
+
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/50 shadow-lg">
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-3 group">
-          <img src="https://static.vecteezy.com/system/resources/previews/010/179/524/original/rms-letter-technology-logo-design-on-white-background-rms-creative-initials-letter-it-logo-concept-rms-letter-design-vector.jpg" alt="rms" className="w-16 h-16"/>
+            <img 
+              src="https://static.vecteezy.com/system/resources/previews/010/179/524/original/rms-letter-technology-logo-design-on-white-background-rms-creative-initials-letter-it-logo-concept-rms-letter-design-vector.jpg" 
+              alt="rms" 
+              className="w-16 h-16" 
+            />
           </Link>
           
-          <nav className="hidden md:flex items-center space-x-10">
+          <nav className={`${isMobileMenuOpen ? 'hidden' : 'hidden md:flex'} items-center space-x-10`}>
             {navItems.map((item) => (
               <Link
                 key={item.path}
@@ -184,7 +228,7 @@ const Header = ({ isDashboard }) => {
                   onClick={() => navigate('/candidate-register')}
                   className="hidden sm:inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold py-2 px-6 rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 text-lg"
                 >
-                  <Briefcase className="h-5 w-5" />
+                  {/* <Briefcase className="h-5 w-5" /> */}
                   Get Started
                 </button>
                 <button
@@ -197,7 +241,8 @@ const Header = ({ isDashboard }) => {
             )}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden text-slate-700 hover:text-blue-600 transition-colors"
+              className="md:hidden text-slate-700 hover:text-blue-600 transition-colors z-50"
+              aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
             >
               {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -207,19 +252,22 @@ const Header = ({ isDashboard }) => {
         {/* Mobile Menu */}
         <AnimatePresence>
           {isMobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-[999] bg-black/40 backdrop-blur-sm flex flex-col md:hidden"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
+            <div className="fixed inset-0 z-[999] md:hidden overflow-hidden">
+              {/* Overlay */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 bg-black/30"
+                onClick={() => setIsMobileMenuOpen(false)}
+              />
+              {/* Menu Panel */}
               <motion.div
                 initial={{ x: '-100%' }}
                 animate={{ x: 0 }}
                 exit={{ x: '-100%' }}
                 transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                className="w-4/5 max-w-xs bg-white h-full shadow-2xl p-6 space-y-4 flex flex-col"
+                className="fixed inset-y-0 left-0 w-4/5 max-w-xs bg-white shadow-2xl p-6 space-y-4 flex flex-col z-[1000]"
                 onClick={e => e.stopPropagation()}
               >
                 <div className="flex items-center space-x-2 mb-4">
@@ -258,7 +306,7 @@ const Header = ({ isDashboard }) => {
                         exit={{ height: 0, opacity: 0 }}
                         id="mobile-products-dropdown"
                         className="overflow-hidden"
-                      >
+                      > 
                         {products.map((product) => (
                           product.path ? (
                             <Link
@@ -302,14 +350,14 @@ const Header = ({ isDashboard }) => {
                         setIsMobileMenuOpen(false);
                         navigate('/login');
                       }}
-                      className="w-full mt-2 inline-flex items-center bg-white text-blue-600 border border-blue-600 font-bold py-2 px-6 rounded-lg hover:bg-blue-600 hover:text-white transition-all duration-300 text-lg"
+                      className="w-full mt-2 inline-flex items-center justify-center bg-white text-blue-600 border border-blue-600 font-bold py-2 px-6 rounded-lg hover:bg-blue-600 hover:text-white transition-all duration-300 text-lg"
                     >
-                      Login
+                      <span>Login</span>
                     </button>
                   </>
                 )}
               </motion.div>
-            </motion.div>
+            </div>
           )}
         </AnimatePresence>
       </div>

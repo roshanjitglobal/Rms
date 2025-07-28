@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react';
 import { Building2, Camera } from 'lucide-react';
 
 const Profile = ({ isSidebarOpen, toggleSidebar }) => {
-  const [editMode, setEditMode] = useState(false);
   const [profileImg, setProfileImg] = useState(null);
   const formRef = useRef(null);
   const socialLinks = [
@@ -17,7 +16,7 @@ const Profile = ({ isSidebarOpen, toggleSidebar }) => {
     }
   ];
 
-  // Helper to enable/disable all inputs
+  // Helper to keep inputs disabled (no edit mode)
   const setInputsDisabled = (disabled) => {
     if (formRef.current) {
       const inputs = formRef.current.querySelectorAll('input');
@@ -26,8 +25,8 @@ const Profile = ({ isSidebarOpen, toggleSidebar }) => {
   };
 
   React.useEffect(() => {
-    setInputsDisabled(!editMode);
-  }, [editMode]);
+    setInputsDisabled(true); // Inputs remain disabled
+  }, []);
 
   return (
     <div className="flex-1 p-2 sm:p-4" ref={formRef}>
@@ -46,22 +45,6 @@ const Profile = ({ isSidebarOpen, toggleSidebar }) => {
           <h2 className="text-2xl sm:text-3xl font-bold mb-2">Company Profile</h2>
           <p className="text-gray-500 text-sm sm:text-base">View and manage your company information.</p>
         </div>
-        <div className="flex gap-2">
-          {editMode && (
-            <button
-              className="px-4 py-2 rounded-lg text-white font-medium bg-red-600 hover:bg-red-700 transition-colors"
-              onClick={() => setEditMode(false)}
-            >
-              Discard
-            </button>
-          )}
-          <button
-            className={`px-4 py-2 rounded-lg text-white font-medium transition-colors ${editMode ? 'bg-green-600 hover:bg-green-700' : 'bg-indigo-600 hover:bg-indigo-700'}`}
-            onClick={() => setEditMode((prev) => !prev)}
-          >
-            {editMode ? 'Save' : 'Edit'}
-          </button>
-        </div>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
         <div className="lg:col-span-1">
@@ -77,41 +60,19 @@ const Profile = ({ isSidebarOpen, toggleSidebar }) => {
                 ) : (
                   <Building2 className="w-12 h-12 sm:w-16 sm:h-16 text-[#4f46e5]" />
                 )}
-                {editMode && (
-                  <label
-                    className="absolute bottom-1.5 right-1.5 bg-[rgba(0,0,0,0.44)] hover:bg-[#6366f1] transition-colors rounded-full p-1.5 flex items-center justify-center cursor-pointer z-20 border-2 border-white shadow"
-                    style={{ boxShadow: '0 2px 8px 0 rgba(0,0,0,0.10)' }}
-                    title="Change profile photo"
-                  >
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      onChange={e => {
-                        const file = e.target.files[0];
-                        if (file) {
-                          const reader = new FileReader();
-                          reader.onload = (ev) => setProfileImg(ev.target.result);
-                          reader.readAsDataURL(file);
-                        }
-                      }}
-                    />
-                    <Camera className="w-4 h-4 text-white" />
-                  </label>
-                )}
               </div>
             </div>
             <input
               type="text"
               className="text-xl sm:text-2xl font-bold mb-1 text-center w-full border border-gray-300 rounded-lg px-2 py-1 text-[#4f46e5] bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-400"
               defaultValue="TechHire Solutions"
-              disabled={!editMode}
+              disabled
             />
             <input
               type="text"
               className="text-indigo-400 text-xs sm:text-sm mb-4 text-center w-full border border-gray-300 rounded-lg px-2 py-1 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-400"
               defaultValue="IT Services and Consulting"
-              disabled={!editMode}
+              disabled
             />
             <div className="space-y-4 text-left">
               <div>
@@ -133,7 +94,7 @@ const Profile = ({ isSidebarOpen, toggleSidebar }) => {
         </div>
         <div className="lg:col-span-2">
           <div className="bg-gray-50 rounded-xl p-4 sm:p-6 shadow">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 gap-2">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:jusify-between mb-4 sm:mb-6 gap-2">
               <h3 className="text-lg sm:text-xl font-bold">Company Information</h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
