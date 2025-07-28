@@ -19,6 +19,7 @@ import NotFound from "./pages/landing/pages/NotFound";
 import ForgotPassword from "./pages/auth/Forgot";
 import Login from "./pages/auth/Login";
 import HRRegister from './pages/auth/HRRegister';
+import CandidateRegister from './pages/auth/candidateRegister';
 
 // Layouts
 import HRLayout from "./layouts/HRLayout";
@@ -80,6 +81,7 @@ const AppContent = () => {
               <Route path="/login" element={<Login/>} />
               <Route path="/forgot" element={<ForgotPassword/>} />
               <Route path="/hr-register" element={<HRRegister />} />
+              <Route path="/candidate-register" element={<CandidateRegister />} />
               
               
               {/* HR Routes */}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   User,
   FilePlus,
@@ -27,6 +27,17 @@ const menuItems = [
 const CandidateSidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  
+  const handleLogout = (e, path) => {
+    if (path === '/logout') {
+      e.preventDefault();
+      // Clear any stored authentication data if needed
+      // localStorage.removeItem('token');
+      navigate('/');
+      return;
+    }
+  };
 
   return (
     <div
@@ -60,7 +71,8 @@ const CandidateSidebar = () => {
             <Link
               to={item.path}
               key={item.name}
-              className={`flex items-center gap-3 p-3 rounded-lg transition-all duration-200
+              onClick={(e) => item.path === '/logout' && handleLogout(e, item.path)}
+              className={`flex items-center gap-3 p-3 rounded-lg transition-all duration-200 cursor-pointer
                 ${isActive ? 'bg-white text-[#4f46e5]' : 'hover:bg-white/10 text-white'}
               `}
             >

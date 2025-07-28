@@ -48,6 +48,12 @@ const Login = () => {
         return;
       }
 
+      // Check for candidate login
+      if (form.email === 'candidate@gmail.com' && form.password === 'password123') {
+        navigate('/candidate/dashboard');
+        return;
+      }
+
       // If we get here, credentials are invalid
       setErrors({
         ...tempErrors,
