@@ -3,6 +3,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import HRSidebar from '../components/hr/HRSidebar';
 import useResponsive from "@/hooks/useResponsive";
 import DashboardHeader from '../pages/companyAdmin/HR/DashboardHeader';
+import Footer from '../pages/landing/Components/Footer';
 
 const HRLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -40,8 +41,12 @@ const HRLayout = () => {
           <HRSidebar collapsed={collapsed} onToggle={() => setCollapsed(c => !c)} />
         </div>
         {/* Main content */}
-        <div className="flex-1 overflow-auto p-4 md:p-6 transition-all duration-300">
-          <Outlet />
+        <div className="flex-1 overflow-auto transition-all duration-300 flex flex-col">
+          <div className="flex-1 p-4 md:p-6">
+            <Outlet />
+          </div>
+          {/* Footer */}
+          <Footer />
         </div>
       </div>
     </div>

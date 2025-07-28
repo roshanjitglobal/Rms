@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Outlet, useLocation, Link } from 'react-router-dom';
 import useResponsive from "@/hooks/useResponsive";
 import DashboardHeader from '../pages/companyAdmin/HR/DashboardHeader';
+import Footer from '../pages/landing/Components/Footer';
 import {
   LayoutDashboard,
   Users,
@@ -17,7 +18,6 @@ import {
 const COMPANY_ADMIN_ITEMS = [
   { label: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/company/dashboard' },
   { label: 'Manage HR', icon: <Users size={20} />, path: '/company/manage-hr' },
-  { label: 'Analytics', icon: <BarChart2 size={20} />, path: '/company/analytics' },
   { label: 'Reports', icon: <FileText size={20} />, path: '/company/reports' },
   { label: 'Notifications', icon: <Bell size={20} />, path: '/company/notifications' },
   { label: 'Profile', icon: <User size={20} />, path: '/company/profile' },
@@ -107,12 +107,14 @@ const CompanyAdminLayout = () => {
         )}
 
         {/* Main content */}
-        <div className={`flex-1 overflow-auto transition-all duration-300 ${
+        <div className={`flex-1 overflow-auto transition-all duration-300 flex flex-col ${
           isCollapsed ? 'lg:ml-20' : 'lg:ml-64'
         }`}>
-          <div className="p-4 md:p-6">
+          <div className="flex-1 p-4 md:p-6">
             <Outlet />
           </div>
+          {/* Footer */}
+          <Footer />
         </div>
       </div>
     </div>

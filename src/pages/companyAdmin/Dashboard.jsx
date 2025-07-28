@@ -8,6 +8,7 @@ import {
   ResponsiveContainer,
   Legend,
   Cell,
+  CartesianGrid,
 } from 'recharts';
 import {
   Briefcase,
@@ -16,6 +17,9 @@ import {
   FileText,
   ChevronLeft,
   ChevronRight,
+  BarChart2,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react';
 
 const jdMonthData = [
@@ -42,87 +46,99 @@ const jdAppliedData = [
 
 const COLORS = ['#4f46e5', '#6366f1', '#a5b4fc'];
 
-const Sidebar = ({ collapsed, toggleSidebar }) => (
-  <aside
-    className={`${
-      collapsed ? 'w-20' : 'w-64'
-    } bg-[#4f46e5] text-white min-h-screen p-4 transition-all duration-300 shadow-lg`}
-  >
-    <div className="flex justify-between items-center mb-6">
-      {!collapsed && <h2 className="text-xl font-bold">Company Admin</h2>}
-      <button onClick={toggleSidebar} className="text-white">
-        {collapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
-      </button>
-    </div>
-    <nav className="space-y-6 mt-8">
-      {[
-        { name: 'Dashboard', icon: <LayoutDashboard size={20} /> },
-        { name: 'Job Descriptions', icon: <FileText size={20} /> },
-        { name: 'HR Team', icon: <Users size={20} /> },
-        { name: 'Applications', icon: <Briefcase size={20} /> },
-      ].map((item) => (
-        <a
-          key={item.name}
-          href="#"
-          className="flex items-center gap-2 text-sm hover:text-gray-200"
-        >
-          {item.icon}
-          {!collapsed && item.name}
-        </a>
-      ))}
-    </nav>
-  </aside>
-);
-
-const JDBarChart = ({ title, data, dataKey, barColors }) => (
-  <div className="bg-white rounded-xl p-4 shadow-md">
-    <h3 className="text-lg font-semibold text-[#4f46e5] mb-2">{title}</h3>
-    <ResponsiveContainer width="100%" height={250}>
-      <BarChart data={data}>
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey={dataKey}>
-          {data.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={barColors[index % barColors.length]} />
-          ))}
-        </Bar>
-      </BarChart>
-    </ResponsiveContainer>
-  </div>
-);
-
-const CompanyAdminDashboard = () => {
-  const [collapsed, setCollapsed] = useState(false);
-  const toggleSidebar = () => setCollapsed(!collapsed);
+const AnalyticsCard = ({ title, data, dataKey, colors, icon: Icon }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const total = data.reduce((sum, item) => sum + item[dataKey], 0);
+  const average = Math.round((total / data.length) * 100) / 100 || 0;
 
   return (
-    <div className="flex bg-gray-50 min-h-screen">
-      <Sidebar collapsed={collapsed} toggleSidebar={toggleSidebar} />
-      <main className="flex-1 p-6 space-y-6">
-        <h1 className="text-2xl font-bold text-[#4f46e5] mb-4">Dashboard Overview</h1>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <JDBarChart
-            title="JD vs Month"
-            data={jdMonthData}
-            dataKey="JD_Month"
-            barColors={['#4f46e5', '#60a5fa', '#6366f1', '#7c3aed']}
-          />
-          <JDBarChart
-            title="JD vs HR"
-            data={jdHRData}
-            dataKey="JD_HR"
-            barColors={['#4f46e5', '#818cf8', '#a5b4fc']}
-          />
-          <JDBarChart
-            title="JD vs Total Applied"
-            data={jdAppliedData}
-            dataKey="JD_Applications"
-            barColors={['#4f46e5', '#818cf8', '#93c5fd', '#3b82f6', '#2563eb']}
-          />
+    <div className="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300">
+      <div 
+        className="p-4 cursor-pointer flex justify-between items-center"
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
+        <div className="flex items-center space-x-3">
+          <div className="p-2 rounded-lg bg-indigo-100 text-indigo-600">
+            <Icon size={20} />
+          </div>
+          <div>
+            <h3 className="font-medium text-gray-700">{title}</h3>
+            <p className="text-2xl font-bold text-indigo-600">{total}</p>
+            <p className="text-sm text-gray-500">Avg: {average}</p>
+          </div>
         </div>
-      </main>
+        <div className="text-gray-400">
+          {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+        </div>
+      </div>
+      
+      {isExpanded && (
+        <div className="p-4 border-t border-gray-100">
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={data} margin={{ top: 5, right: 5, left: 0, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey={dataKey} name={title.split(' - ')[0]} fill="#4f46e5">
+                  {data.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const CompanyAdminDashboard = () => {
+  const analyticsCards = [
+    {
+      title: 'JD vs Month',
+      data: jdMonthData,
+      dataKey: 'JD_Month',
+      colors: ['#4f46e5', '#60a5fa', '#6366f1', '#7c3aed', '#8b5cf6'],
+      icon: BarChart2
+    },
+    {
+      title: 'JD by HR',
+      data: jdHRData,
+      dataKey: 'JD_HR',
+      colors: ['#4f46e5', '#818cf8', '#a5b4fc'],
+      icon: Users
+    },
+    {
+      title: 'Applications by Role',
+      data: jdAppliedData,
+      dataKey: 'JD_Applications',
+      colors: ['#4f46e5', '#818cf8', '#93c5fd', '#3b82f6', '#2563eb'],
+      icon: FileText
+    }
+  ];
+
+  return (
+    <div className="bg-gray-50 min-h-screen p-6">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-2xl font-bold text-gray-800 mb-6">Analytics Dashboard</h1>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {analyticsCards.map((card, index) => (
+            <AnalyticsCard
+              key={index}
+              title={card.title}
+              data={card.data}
+              dataKey={card.dataKey}
+              colors={card.colors}
+              icon={card.icon}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
