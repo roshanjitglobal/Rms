@@ -33,6 +33,8 @@ import UploadResume from './pages/hr/UploadResume';
 import ManageJD from './pages/hr/Managejd';
 import InterviewScore from './pages/hr/InterviewScore';
 import JDListStatus from './pages/hr/JD/JDListStatus';
+import HRProfile from './pages/hr/Profile';
+import InterviewDetail from './pages/hr/InterviewDetail';
 
 // Company Admin Pages
 import CompanyAdminDashboard from "./pages/companyAdmin/HR/Home";
@@ -92,6 +94,10 @@ const AppContent = () => {
                 <Route path="uploadresume" element={<UploadResume />} />
                 <Route path="interviewscore" element={<InterviewScore />} />
                 <Route path="jdliststatus" element={<JDListStatus />} />
+                <Route path="profile" element={<HRProfile />} />
+                <Route path="interview/:id" element={<InterviewDetail />} />
+                <Route path="settings" element={<SettingsScreen />} />
+                <Route path="notifications" element={<Notifications />} />
                 {/* Redirect old HR routes */}
                 <Route path="*" element={<Navigate to="/hr/dashboard" replace />} />
               </Route>
@@ -119,6 +125,8 @@ const AppContent = () => {
                 <Route path="dashboard" element={<CandidateDashboard />} />
                 <Route path="profile" element={<CandidateProfile />} />
                 <Route path="applications" element={<Application />} />
+                <Route path="settings" element={<SettingsScreen />} />
+                <Route path="notifications" element={<Notifications />} />
                 {/* Redirect old candidate routes */}
                 <Route path="*" element={<Navigate to="/candidate/dashboard" replace />} />
               </Route>

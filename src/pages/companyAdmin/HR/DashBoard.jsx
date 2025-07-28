@@ -107,6 +107,7 @@ function Dashboard() {
     }
   };
   
+  
   // Update last update time when navigation data changes
   useEffect(() => {
     if (lastUpdated) {
@@ -283,13 +284,12 @@ function Dashboard() {
             <StatCard 
               label="Offers Extended" 
               value={chartData.summary.offersExtended}
-              
+              icon="📨"
               gradient="from-yellow-500 to-yellow-400"
             />
           </div>
-        </main>
-        <Footer />
-      </div>
+      </main>
+      <Footer />
     </div>
   );
 }

@@ -1,7 +1,5 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import Header from '../common/Header.jsx';
-import Footer from '../common/Footer.jsx';
 import '../../index.css';
 
 // Candidates data (should match InterviewReports.jsx)
@@ -66,7 +64,6 @@ const InterviewDetail = () => {
             <div>
               <h2 className="text-2xl font-semibold text-gray-800">{candidate.name}</h2>
               <p className="text-lg text-gray-600">
-                
                 Resume Score: <span className="font-medium text-indigo-600">{candidate.score}%</span>
               </p>
               <p className="text-lg text-gray-600">
@@ -138,4 +135,4 @@ const InterviewDetail = () => {
   );
 };
 
-export default InterviewDetail;
+export default InterviewDetail; 

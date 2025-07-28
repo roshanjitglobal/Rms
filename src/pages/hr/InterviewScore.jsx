@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../../index.css";
+import { useNavigate } from 'react-router-dom';
 // import Sidebar from "../../components/hr/Sidebar";
 
 // Helper: breakdown bar for skills
@@ -135,6 +136,7 @@ const CandidateRow = ({
   interviewScore,
   experience,
   onInterviewClick,
+  index,
 }) => (
   <tr className="border-b hover:bg-blue-50 transition duration-200 cursor-pointer">
     <td className="py-2 px-4 text-gray-900 whitespace-nowrap font-medium">
@@ -186,7 +188,7 @@ const CandidateRow = ({
       <button
         onClick={(e) => {
           e.stopPropagation();
-          onInterviewClick(interviewScore);
+          onInterviewClick(index);
         }}
         className={`px-3 py-1 rounded-full font-semibold text-sm outline-none focus:ring-2 focus:ring-blue-500 transition duration-200
           ${
@@ -204,6 +206,7 @@ const CandidateRow = ({
 );
 
 const InterviewScore = () => {
+  const navigate = useNavigate();
   const candidates = [
     {
       name: "Sophia Turner",
@@ -387,19 +390,8 @@ const InterviewScore = () => {
     );
   });
 
-  const handleInterviewDetails = (score, candidate) => {
-    setSelectedCandidate({
-      ...candidate,
-      interviewScore: score,
-      breakdown: {
-        communication: Math.min(25, score * 0.4),
-        technicalSkills: Math.min(25, score * 0.3),
-        problemSolving: Math.min(25, score * 0.2),
-        experience: Math.min(25, score * 0.1),
-      },
-    });
-    setShowInterviewDetails(true);
-    document.body.classList.add("overflow-hidden");
+  const handleInterviewDetails = (id) => {
+    navigate(`/hr/interview/${id}`);
   };
 
   const handleCloseModal = () => {
@@ -597,9 +589,7 @@ const InterviewScore = () => {
                   key={index}
                   {...candidate}
                   index={index}
-                  onInterviewClick={(score) =>
-                    handleInterviewDetails(score, candidate)
-                  }
+                  onInterviewClick={handleInterviewDetails}
                 />
               ))}
             </tbody>

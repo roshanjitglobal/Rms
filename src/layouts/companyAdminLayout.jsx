@@ -18,7 +18,7 @@ import {
 const COMPANY_ADMIN_ITEMS = [
   { label: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/company/dashboard' },
   { label: 'Manage HR', icon: <Users size={20} />, path: '/company/manage-hr' },
-  { label: 'Reports', icon: <FileText size={20} />, path: '/company/reports' },
+  // { label: 'Reports', icon: <FileText size={20} />, path: '/company/reports' },
   { label: 'Notifications', icon: <Bell size={20} />, path: '/company/notifications' },
   { label: 'Profile', icon: <User size={20} />, path: '/company/profile' },
   { label: 'Settings', icon: <Settings size={20} />, path: '/company/settings' },

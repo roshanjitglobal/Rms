@@ -144,10 +144,8 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="mt-8 grid md:grid-cols-3 gap-6">
+          <div className="mt-8">
             <JobList />
-            <TaskList />
-            <ScheduleCard />
           </div>
 
       {/* Modal for Enlarged Charts and Date Filter */}
@@ -352,51 +350,20 @@ function StatCard({ title, count, change }) {
 }
 
 function JobList() {
+  const jobs = ['Frontend Developer (2)', 'UX Designer (1)', 'Project Manager (3)'];
   return (
     <div className="bg-white rounded-xl shadow-lg p-4 hover:scale-105 transition-transform duration-200">
-      <h4 className="text-md font-semibold text-indigo-700 mb-3">Current Vacancies</h4>
-      {DUMMY_VACANCIES.map((job, i) => (
-        <div key={i} className="mb-3 p-3 bg-purple-50 rounded-lg hover:bg-purple-100 transition">
-          <h5 className="font-medium text-purple-800">{job.jobTitle}</h5>
-          <p className="text-sm text-gray-600">{job.type} • {job.salary}</p>
-          <p className="text-xs text-gray-500">{job.applicants} Applicants</p>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function TaskList() {
-  const tasks = ['Resume Screening', 'Schedule Interviews', 'Candidate Communication', 'Offer Management'];
-  return (
-    <div className="bg-white rounded-xl shadow-lg p-4 hover:scale-105 transition-transform duration-200">
-      <h4 className="text-md font-semibold text-indigo-700 mb-3">Tasks</h4>
-      {tasks.map((task, i) => (
-        <div key={i} className="flex items-center gap-2 mb-2 text-sm">
-          <CheckCircle className="text-green-500 w-4 h-4" />
-          {task}
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function ScheduleCard() {
-  const events = [
-    'Marketing Strategy Presentation',
-    'HR Policy Update Session',
-    'Customer Feedback Review',
-    'Financial Report Session',
-  ];
-  return (
-    <div className="bg-white rounded-xl shadow-lg p-4 hover:scale-105 transition-transform duration-200">
-      <h4 className="text-md font-semibold text-indigo-700 mb-3">Schedule</h4>
-      {events.map((event, i) => (
-        <div key={i} className="flex items-center gap-2 mb-2 text-sm">
-          <Clock className="text-[#4f46e5] w-4 h-4" />
-          {event}
-        </div>
-      ))}
+      <h3 className="text-lg font-semibold mb-3 text-indigo-700">Open Positions</h3>
+      <ul className="space-y-2">
+        {jobs.map((job, index) => (
+          <li key={index} className="flex justify-between items-center">
+            <span className="text-gray-700">{job}</span>
+            <button className="text-sm bg-indigo-100 text-indigo-700 px-2 py-1 rounded hover:bg-indigo-200 transition-colors">
+              View
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

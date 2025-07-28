@@ -79,7 +79,11 @@ const DashboardHeader = ({ onSidebarToggle }) => {
           </button>
           {/* Settings Icon */}
           <button 
-            onClick={() => navigate('/hr/settings')}
+            onClick={() => {
+              // Check if we're in the candidate section
+              const isCandidate = location.pathname.startsWith('/candidate');
+              navigate(isCandidate ? '/candidate/settings' : '/hr/settings');
+            }}
             className="p-2 text-gray-500 hover:text-indigo-600 hover:bg-gray-100 rounded-full transition-colors"
             aria-label="Settings"
           >
