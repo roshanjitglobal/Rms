@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, Phone, Globe, MapPin, Briefcase } from 'lucide-react';
+import { Mail, Phone, Globe, MapPin } from 'lucide-react';
+import { APP_LOGO } from '../../../config/constants';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -11,8 +12,12 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
           <div className="lg:col-span-2">
             <div className="flex items-center space-x-2 mb-1">
-              <div className="bg-white p-2 rounded-lg">
-                <Briefcase className="h-6 w-6 text-[#181ed4]" />
+              <div className="bg-white p-1 rounded-lg">
+                <img 
+                  src={APP_LOGO} 
+                  alt="RMS Logo" 
+                  className="h-8 w-8 object-contain"
+                />
               </div>
               <span className="text-2xl font-bold text-[#181ed4] bg-white px-2 py-1 rounded">RMS</span>
             </div>

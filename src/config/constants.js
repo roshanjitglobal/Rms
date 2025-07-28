@@ -1,0 +1,1 @@
+export const APP_LOGO = 'https://static.vecteezy.com/system/resources/previews/010/179/524/original/rms-letter-technology-logo-design-on-white-background-rms-creative-initials-letter-it-logo-concept-rms-letter-design-vector.jpg';
