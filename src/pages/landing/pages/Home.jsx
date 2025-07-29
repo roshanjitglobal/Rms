@@ -78,7 +78,7 @@ const Home = () => {
             transition={{ duration: 0.8 }}
             className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6 leading-tight drop-shadow-lg"
           >
-            Simplify <span className="text-[#ffd700]">Hiring</span> with <span className="text-[#ffd700]">RMS</span>
+            Simplifyyyyyyyyyyyy <span className="text-[#ffd700]">Hiring</span> with <span className="text-[#ffd700]">RMS</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 30 }}
