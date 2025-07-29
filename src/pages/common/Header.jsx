@@ -196,7 +196,7 @@ const Header = ({ onSignupClick }) => {
                       </div>
                       <h2 className="text-2xl font-extrabold text-slate-900 mb-2 tracking-tight">Coming Soon</h2>
                       <p className="text-base text-slate-700 text-center max-w-xs">
-                        Our Developers are working on that.<br />Soon this product will be in Market.
+                        Our Developers are workheeeeeeeeeeeing on that.<br />Soon this product will be in Market.
                       </p>
                     </div>
                   </div>
