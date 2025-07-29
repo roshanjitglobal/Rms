@@ -19,8 +19,8 @@ import Profile from './pages/companyAdmin/companyProfile.jsx';
 import CompanyAdminDashboard from './pages/hr/ShortlistProceed.jsx';
 import CandidateSidebar from './pages/Candidate/ApplyToJob.jsx';
 import ManageHR from './pages/companyAdmin/HRActivityLogs.jsx';
-import {HRList, HRProfilePage} from './pages/companyAdmin/HR/HRList.jsx';
-import HRProfileModal from './pages/hr/hrprofile.jsx';
+import HRProfilePage from './pages/hr/hrprofile.jsx';
+import HRList from './pages/companyAdmin/HR/HRList.jsx';
 
 
 
@@ -50,7 +50,8 @@ function App() {
         <Route path="/candidatesidebar" element={<CandidateSidebar />} />
         <Route path="/HRmanage" element={<ManageHR />} />
         <Route path="/hrlist" element={<HRList />} />
-        <Route path="/hrprofile" element={<HRProfileModal />} />
+        <Route path="/hrprofile" element={<HRProfilePage />} />
+        <Route path="/hrprofile/:hrId" element={<HRProfilePage />} />
       
         {/* Removed routes for Header, Footer, and CandidateBox. Use them only inside page components. */}
          {/* Catch-all route for 404 Not Found */}
