@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Edit2, Trash2, Search, Building, Users, MapPin, Mail, Phone, Calendar } from 'lucide-react';
+import { Plus, Ban, Search, Building, Users, MapPin, Mail, Phone, Calendar, CheckCircle } from 'lucide-react';
 
 const CompanyManagementDashboard = () => {
   const [companies, setCompanies] = useState([
@@ -33,23 +33,20 @@ const CompanyManagementDashboard = () => {
       address: '789 Art District, Los Angeles, CA 90028',
       employees: 45,
       registeredDate: '2023-06-10',
-      status: 'Inactive',
+      status: 'Blocked',
       industry: 'Design'
     }
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [modalMode, setModalMode] = useState('add'); // 'add' or 'edit'
-  const [selectedCompany, setSelectedCompany] = useState(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
     address: '',
     employees: '',
-    industry: '',
-    status: 'Active'
+    industry: ''
   });
 
   const filteredCompanies = companies.filter(company =>
@@ -59,60 +56,39 @@ const CompanyManagementDashboard = () => {
   );
 
   const handleAdd = () => {
-    setModalMode('add');
     setFormData({
       name: '',
       email: '',
       phone: '',
       address: '',
       employees: '',
-      industry: '',
-      status: 'Active'
+      industry: ''
     });
     setShowModal(true);
   };
 
-  const handleEdit = (company) => {
-    setModalMode('edit');
-    setSelectedCompany(company);
-    setFormData({
-      name: company.name,
-      email: company.email,
-      phone: company.phone,
-      address: company.address,
-      employees: company.employees.toString(),
-      industry: company.industry,
-      status: company.status
-    });
-    setShowModal(true);
-  };
-
-  const handleDelete = (id) => {
-    if (window.confirm('Are you sure you want to delete this company?')) {
-      setCompanies(companies.filter(company => company.id !== id));
+  const handleToggleStatus = (id) => {
+    const company = companies.find(c => c.id === id);
+    const newStatus = company.status === 'Active' ? 'Blocked' : 'Active';
+    const action = newStatus === 'Blocked' ? 'block' : 'unblock';
+    
+    if (window.confirm(`Are you sure you want to ${action} this company?`)) {
+      setCompanies(companies.map(c => 
+        c.id === id ? { ...c, status: newStatus } : c
+      ));
     }
   };
 
   const handleSubmit = () => {
-    
-    if (modalMode === 'add') {
-      const newCompany = {
-        id: Math.max(...companies.map(c => c.id)) + 1,
-        ...formData,
-        employees: parseInt(formData.employees),
-        registeredDate: new Date().toISOString().split('T')[0]
-      };
-      setCompanies([...companies, newCompany]);
-    } else {
-      setCompanies(companies.map(company =>
-        company.id === selectedCompany.id
-          ? { ...company, ...formData, employees: parseInt(formData.employees) }
-          : company
-      ));
-    }
-    
+    const newCompany = {
+      id: Math.max(...companies.map(c => c.id)) + 1,
+      ...formData,
+      employees: parseInt(formData.employees),
+      registeredDate: new Date().toISOString().split('T')[0],
+      status: 'Active'
+    };
+    setCompanies([...companies, newCompany]);
     setShowModal(false);
-    setSelectedCompany(null);
   };
 
   const handleInputChange = (e) => {
@@ -126,25 +102,6 @@ const CompanyManagementDashboard = () => {
   return (
     <div className="w-full bg-gray-50 p-6">
       <div className="w-full">
-        {/* Header */}
-        {/* <div className="bg-white rounded-2xl shadow-lg border p-6 mb-8">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <Building className="h-8 w-8 text-indigo-600" />
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900">Company Management</h1>
-                <p className="text-indigo-600">Super Admin Dashboard</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="bg-indigo-50 px-4 py-2 rounded-lg border border-indigo-200">
-                <span className="text-gray-600 text-sm">Total Companies: </span>
-                <span className="text-indigo-600 font-bold text-lg">{companies.length}</span>
-              </div>
-            </div>
-          </div>
-        </div> */}
-
         {/* Search and Add Section */}
         <div className="bg-white rounded-2xl shadow-lg border p-6 mb-8">
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
@@ -188,18 +145,21 @@ const CompanyManagementDashboard = () => {
                     </span>
                   </div>
                 </div>
-                <div className="flex space-x-2">
+                <div className="flex">
                   <button
-                    onClick={() => handleEdit(company)}
-                    className="p-2 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg transition-all duration-300 border border-blue-200"
+                    onClick={() => handleToggleStatus(company.id)}
+                    className={`p-2 rounded-lg transition-all duration-300 border ${
+                      company.status === 'Active'
+                        ? 'bg-red-50 hover:bg-red-100 text-red-600 border-red-200'
+                        : 'bg-green-50 hover:bg-green-100 text-green-600 border-green-200'
+                    }`}
+                    title={company.status === 'Active' ? 'Block Company' : 'Unblock Company'}
                   >
-                    <Edit2 className="h-4 w-4" />
-                  </button>
-                  <button
-                    onClick={() => handleDelete(company.id)}
-                    className="p-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg transition-all duration-300 border border-red-200"
-                  >
-                    <Trash2 className="h-4 w-4" />
+                    {company.status === 'Active' ? (
+                      <Ban className="h-4 w-4" />
+                    ) : (
+                      <CheckCircle className="h-4 w-4" />
+                    )}
                   </button>
                 </div>
               </div>
@@ -249,9 +209,7 @@ const CompanyManagementDashboard = () => {
         {showModal && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-6">
-                {modalMode === 'add' ? 'Add New Company' : 'Edit Company'}
-              </h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-6">Add New Company</h2>
               <div className="space-y-4">
                 <div>
                   <label className="block text-gray-700 text-sm font-medium mb-2">Company Name</label>
@@ -297,30 +255,16 @@ const CompanyManagementDashboard = () => {
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-gray-700 text-sm font-medium mb-2">Employees</label>
-                    <input
-                      type="number"
-                      name="employees"
-                      value={formData.employees}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-gray-700 text-sm font-medium mb-2">Status</label>
-                    <select
-                      name="status"
-                      value={formData.status}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                    >
-                      <option value="Active" className="bg-white">Active</option>
-                      <option value="Inactive" className="bg-white">Inactive</option>
-                    </select>
-                  </div>
+                <div>
+                  <label className="block text-gray-700 text-sm font-medium mb-2">Employees</label>
+                  <input
+                    type="number"
+                    name="employees"
+                    value={formData.employees}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  />
                 </div>
                 <div>
                   <label className="block text-gray-700 text-sm font-medium mb-2">Industry</label>
@@ -346,7 +290,7 @@ const CompanyManagementDashboard = () => {
                     onClick={handleSubmit}
                     className="flex-1 px-4 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-all duration-300 shadow-lg"
                   >
-                    {modalMode === 'add' ? 'Add Company' : 'Update Company'}
+                    Add Company
                   </button>
                 </div>
               </div>

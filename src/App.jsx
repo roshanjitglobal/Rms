@@ -35,6 +35,8 @@ import FeedbackCenter from "./pages/auth/superAdmin/feedbackCenter";
 import SubSuperAdminManager from "./pages/auth/superAdmin/ManageSubAdmin";
 import CompanyManagementDashboard from "./pages/auth/superAdmin/company/companyList";
 import SuperAdminHome from "./pages/auth/superAdmin/SuperAdminDashboard";
+import Hrcandidatelist from "./pages/hr/CandidateManagement";
+import CandidateManagement from "./pages/hr/CandidateManagement";
 
 
 const AppContent = () => {
@@ -94,6 +96,8 @@ const AppContent = () => {
                   <Route path="/uploadresume" element={<UploadResume />} />
                   <Route path="/interviewscore" element={<InterviewScore />} />
                   <Route path="/jdliststatus" element={<JDListStatus />} />
+                  <Route path="/hr-candidate-list" element={<Hrcandidatelist />} />
+                  <Route path="/candidate-management" element={<CandidateManagement />} />
                   
                   {/* Company Admin Routes */}
                   <Route path="/hr-dashboard" element={<HRHome />} />
