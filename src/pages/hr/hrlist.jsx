@@ -25,7 +25,7 @@ const HR_JDS = [
     },
     {
       id: 3,
-      title: "Cloud DevOps Engineer ☁️",
+      title: "Cloud DevOps Engsdfsrfrwdineer ☁️",
       status: "Inactive",
       resumes: 5,
       interviews: 0,
