@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Users, Building, BarChart3, Clock, Shield, Zap, Star } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import Header from '../Components/Hearder';
 
 const testimonials = [
   {
@@ -67,6 +68,9 @@ const Home = () => {
   const navigate = useNavigate();
 
   return (
+    <>
+    
+    <Header/>
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-[#181ed4] via-[#3a47d5] to-[#6a82fb] text-white overflow-hidden flex flex-col md:flex-row items-center justify-between px-4 md:px-12 py-12 md:py-20">
@@ -267,6 +271,7 @@ const Home = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 
