@@ -42,13 +42,18 @@ const Login = () => {
           return;
         }
       }
-      
       // Check for company admin login (for backward compatibility)
       if (form.email === 'company@gmail.com' && form.password === 'password123') {
         navigate('/hr-dashboard');
         return;
       }
-      
+
+      // Check for candidate login
+      if (form.email === 'candidate@gmail.com' && form.password === 'password123') {
+        navigate('/candidate/dashboard');
+        return;
+      }
+
       // If we get here, credentials are invalid
       setErrors({
         ...tempErrors,
@@ -80,11 +85,11 @@ const Login = () => {
           {errors.email && <span className="text-red-500 text-sm ml-1">{errors.email}</span>}
         </div>
 
-        <div className="mb-4 relative">
+        <div className="mb-4">
           <label className="block text-gray-700 mb-1 text-left ml-1">Password</label>
           <div className="flex items-center border border-gray-300 rounded-lg px-3">
             <input
-              type={showPassword ? "text" : "password"}
+              type="password"
               name="password"
               value={form.password}
               onChange={e => setForm({ ...form, password: e.target.value })}

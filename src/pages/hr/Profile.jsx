@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Building2, Camera } from 'lucide-react';
 
-const Profile = ({ isSidebarOpen, toggleSidebar }) => {
+const HRProfile = ({ isSidebarOpen, toggleSidebar }) => {
   const [editMode, setEditMode] = useState(false);
   const [profileImg, setProfileImg] = useState(null);
   const formRef = useRef(null);
@@ -17,7 +17,7 @@ const Profile = ({ isSidebarOpen, toggleSidebar }) => {
     }
   ];
 
-  // Helper to keep inputs disabled (no edit mode)
+  // Helper to enable/disable all inputs
   const setInputsDisabled = (disabled) => {
     if (formRef.current) {
       const inputs = formRef.current.querySelectorAll('input');
@@ -26,8 +26,8 @@ const Profile = ({ isSidebarOpen, toggleSidebar }) => {
   };
 
   React.useEffect(() => {
-    setInputsDisabled(true); // Inputs remain disabled
-  }, []);
+    setInputsDisabled(!editMode);
+  }, [editMode]);
 
   return (
     <div className="flex-1 p-2 sm:p-4" ref={formRef}>
@@ -43,8 +43,24 @@ const Profile = ({ isSidebarOpen, toggleSidebar }) => {
       </button>
       <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
         <div>
-          <h2 className="text-2xl sm:text-3xl font-bold mb-2">Company Profile</h2>
-          <p className="text-gray-500 text-sm sm:text-base">View and manage your company information.</p>
+          <h2 className="text-2xl sm:text-3xl font-bold mb-2">HR Profile</h2>
+          <p className="text-gray-500 text-sm sm:text-base">View and manage your HR information.</p>
+        </div>
+        <div className="flex gap-2">
+          {editMode && (
+            <button
+              className="px-4 py-2 rounded-lg text-white font-medium bg-red-600 hover:bg-red-700 transition-colors"
+              onClick={() => setEditMode(false)}
+            >
+              Discard
+            </button>
+          )}
+          <button
+            className={`px-4 py-2 rounded-lg text-white font-medium transition-colors ${editMode ? 'bg-green-600 hover:bg-green-700' : 'bg-indigo-600 hover:bg-indigo-700'}`}
+            onClick={() => setEditMode((prev) => !prev)}
+          >
+            {editMode ? 'Save' : 'Edit'}
+          </button>
         </div>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
@@ -88,13 +104,13 @@ const Profile = ({ isSidebarOpen, toggleSidebar }) => {
             <input
               type="text"
               className="text-xl sm:text-2xl font-bold mb-1 text-center w-full border border-gray-300 rounded-lg px-2 py-1 text-[#4f46e5] bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-              defaultValue="TechHire Solutions"
+              defaultValue="John Doe"
               disabled={!editMode}
             />
             <input
               type="text"
               className="text-indigo-400 text-xs sm:text-sm mb-4 text-center w-full border border-gray-300 rounded-lg px-2 py-1 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-              defaultValue="IT Services and Consulting"
+              defaultValue="HR Manager"
               disabled={!editMode}
             />
             <div className="space-y-4 text-left">
@@ -117,44 +133,36 @@ const Profile = ({ isSidebarOpen, toggleSidebar }) => {
         </div>
         <div className="lg:col-span-2">
           <div className="bg-gray-50 rounded-xl p-4 sm:p-6 shadow">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:jusify-between mb-4 sm:mb-6 gap-2">
-              <h3 className="text-lg sm:text-xl font-bold">Company Information</h3>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 gap-2">
+              <h3 className="text-lg sm:text-xl font-bold">Personal Information</h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               <div className="space-y-4">
                 <div>
-                  <h4 className="text-xs sm:text-sm font-semibold text-gray-500 mb-1">Company Name</h4>
-                  <input type="text" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-[#4f46e5] text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-400" defaultValue="TechHire Solutions" disabled />
+                  <h4 className="text-xs sm:text-sm font-semibold text-gray-500 mb-1">Full Name</h4>
+                  <input type="text" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-[#4f46e5] text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-400" defaultValue="John Doe" disabled />
                 </div>
                 <div>
-                  <h4 className="text-xs sm:text-sm font-semibold text-gray-500 mb-1">Industry</h4>
-                  <input type="text" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-[#4f46e5] text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-400" defaultValue="Information Technology" disabled />
+                  <h4 className="text-xs sm:text-sm font-semibold text-gray-500 mb-1">Designation</h4>
+                  <input type="text" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-[#4f46e5] text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-400" defaultValue="HR Manager" disabled />
                 </div>
                 <div>
-                  <h4 className="text-xs sm:text-sm font-semibold text-gray-500 mb-1">Company Type</h4>
-                  <input type="text" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-[#4f46e5] text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-400" defaultValue="Private Limited" disabled />
+                  <h4 className="text-xs sm:text-sm font-semibold text-gray-500 mb-1">Department</h4>
+                  <input type="text" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-[#4f46e5] text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-400" defaultValue="Human Resources" disabled />
                 </div>
                 <div>
-                  <h4 className="text-xs sm:text-sm font-semibold text-gray-500 mb-1">Founded Year</h4>
-                  <input type="text" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-[#4f46e5] text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-400" defaultValue="2015" disabled />
-                </div>
-                <div>
-                  <h4 className="text-xs sm:text-sm font-semibold text-gray-500 mb-1">Employee Size</h4>
-                  <input type="text" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-[#4f46e5] text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-400" defaultValue="51–200" disabled />
+                  <h4 className="text-xs sm:text-sm font-semibold text-gray-500 mb-1">Employee ID</h4>
+                  <input type="text" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-[#4f46e5] text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-400" defaultValue="HR12345" disabled />
                 </div>
               </div>
               <div className="space-y-4">
                 <div>
-                  <h4 className="text-xs sm:text-sm font-semibold text-gray-500 mb-1">Company Email</h4>
-                  <input type="email" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-[#4f46e5] text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-400" defaultValue="info@techhire.com" disabled />
+                  <h4 className="text-xs sm:text-sm font-semibold text-gray-500 mb-1">Email</h4>
+                  <input type="email" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-[#4f46e5] text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-400" defaultValue="john.doe@company.com" disabled />
                 </div>
                 <div>
                   <h4 className="text-xs sm:text-sm font-semibold text-gray-500 mb-1">Phone Number</h4>
                   <input type="text" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-[#4f46e5] text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-400" defaultValue="+91 98765 12345" disabled />
-                </div>
-                <div>
-                  <h4 className="text-xs sm:text-sm font-semibold text-gray-500 mb-1">Website</h4>
-                  <input type="text" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-[#4f46e5] text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-400" defaultValue="www.techhire.com" disabled />
                 </div>
                 <div>
                   <h4 className="text-xs sm:text-sm font-semibold text-gray-500 mb-1">Location</h4>
@@ -169,4 +177,4 @@ const Profile = ({ isSidebarOpen, toggleSidebar }) => {
   );
 }
 
-export default Profile;
+export default HRProfile; 
