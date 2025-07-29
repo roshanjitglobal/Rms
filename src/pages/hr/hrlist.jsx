@@ -72,7 +72,7 @@ const HR_JDS = [
     },
     {
       id: 8,
-      title: "Data Engineer 🛢️",
+      title: "Data Enhgchggineer 🛢️",
       status: "Inactive",
       resumes: 3,
       interviews: 0,
