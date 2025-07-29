@@ -18,7 +18,7 @@ const SIDEBAR_ITEMS = [
   { label: 'Interview Score', icon: <ClipboardList size={20} />, path: '/interviewscore' },
   { label: 'JD Status', icon: <ClipboardList size={20} />, path: '/jdliststatus' },
 ];
-
+//test
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
 
