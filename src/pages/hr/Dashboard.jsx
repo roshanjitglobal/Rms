@@ -7,8 +7,7 @@ import {
   Users, Briefcase, CheckCircle, Clock, ChevronLeft, ChevronRight,
   LayoutDashboard, ClipboardList, FileCheck, UserPlus, CalendarDays
 } from 'lucide-react';
-import Header from '../common/Header.jsx';
-import Footer from '../common/Footer.jsx';
+
 import '../../index.css';
 
 const dummyData = [
@@ -52,7 +51,6 @@ const HRDashboard = () => {
 
   return (
     <>
-      <Header />
       <div className="min-h-screen flex bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100">
         {/* Sidebar */}
         <aside className={`transition-all duration-300 bg-[#4f46e5] text-white p-4 ${collapsed ? 'w-20' : 'w-64'} space-y-6 relative`}>
@@ -170,8 +168,6 @@ const HRDashboard = () => {
           </div>
         </div>
       )}
-
-      <Footer />
     </>
   );
 };

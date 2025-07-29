@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Footer from '../common/Footer.jsx';
-import Header from '../common/Header.jsx';
+
 import '../../index.css';
 
 const CandidateRow = ({ name, role, employmentType, workType, appliedDate, attachments, status, score, interviewScore, experience, index }) => {
@@ -123,7 +122,6 @@ const InterviewScore = () => {
 
   return (
     <>
-      <Header />
       <div className="container mx-auto p-4 bg-white text-blue-900">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl font-bold text-blue-600">Candidates</h1>
@@ -231,7 +229,6 @@ const InterviewScore = () => {
         </div>
       </div>
       {showInterviewDetails && <InterviewDetails score={interviewScore} onClose={() => setShowInterviewDetails(false)} />}
-      <Footer />
     </>
   );
 };

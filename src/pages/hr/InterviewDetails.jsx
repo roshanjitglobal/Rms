@@ -1,8 +1,7 @@
 
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import Header from '../common/Header.jsx';
-import Footer from '../common/Footer.jsx';
+
 import '../../index.css';
 
 // Candidates data (should match InterviewReports.jsx)
