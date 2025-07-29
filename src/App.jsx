@@ -18,7 +18,6 @@ import CandidateProfile from './pages/Candidate/profileBuilder.jsx';
 import Profile from './pages/companyAdmin/companyProfile.jsx';
 import CompanyAdminDashboard from './pages/hr/ShortlistProceed.jsx';
 import CandidateSidebar from './pages/Candidate/ApplyToJob.jsx';
-import ManageHR from './pages/companyAdmin/HRActivityLogs.jsx';
 import HRProfilePage from './pages/hr/hrprofile.jsx';
 import HRList from './pages/companyAdmin/HR/HRList.jsx';
 
@@ -48,7 +47,6 @@ function App() {
         <Route path="/companyprofile" element={<Profile />} />
         <Route path="/companydashboard" element={<CompanyAdminDashboard />} />
         <Route path="/candidatesidebar" element={<CandidateSidebar />} />
-        <Route path="/HRmanage" element={<ManageHR />} />
         <Route path="/hrlist" element={<HRList />} />
         <Route path="/hrprofile" element={<HRProfilePage />} />
         <Route path="/hrprofile/:hrId" element={<HRProfilePage />} />
