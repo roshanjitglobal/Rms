@@ -107,7 +107,7 @@ const Register = () => {
                 </div>
                 <span className="ml-3 text-2xl font-bold text-[#181ed4] tracking-wide">RecruitMS</span>
               </div> */}
-              <span className="text-indigo-500 font-semibold text-base mt-2">Welcome! Create your free account</span>
+              <span className="text-indigo-500 font-bold text-2xl mt-2">Welcome!</span>
             </div>
 
             <div className="mb-8">

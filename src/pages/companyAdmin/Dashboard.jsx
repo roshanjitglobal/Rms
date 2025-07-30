@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   BarChart,
   Bar,
@@ -48,27 +49,33 @@ const COLORS = ['#4f46e5', '#6366f1', '#a5b4fc'];
 
 const AnalyticsCard = ({ title, data, dataKey, colors, icon: Icon }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const total = data.reduce((sum, item) => sum + item[dataKey], 0);
-  const average = Math.round((total / data.length) * 100) / 100 || 0;
+
+  const total = data.reduce((sum, item) => sum + (item[dataKey] || 0), 0);
+  const average = data.length > 0 ? Math.round((total / data.length) * 100) / 100 : 0;
 
   return (
-    <div className="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300">
-      <div 
-        className="p-4 cursor-pointer flex justify-between items-center"
-        onClick={() => setIsExpanded(!isExpanded)}
-      >
-        <div className="flex items-center space-x-3">
-          <div className="p-2 rounded-lg bg-indigo-100 text-indigo-600">
-            <Icon size={20} />
+    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+      <div className="p-4 border-b">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center space-x-3 flex-1">
+            <div className="p-2 rounded-lg bg-indigo-100 text-indigo-600">
+              <Icon size={20} />
+            </div>
+            <div>
+              <h3 className="font-medium text-gray-700">{title}</h3>
+              <p className="text-2xl font-bold text-indigo-600">{total}</p>
+              <p className="text-sm text-gray-500">Avg: {average}</p>
+            </div>
           </div>
-          <div>
-            <h3 className="font-medium text-gray-700">{title}</h3>
-            <p className="text-2xl font-bold text-indigo-600">{total}</p>
-            <p className="text-sm text-gray-500">Avg: {average}</p>
-          </div>
-        </div>
-        <div className="text-gray-400">
-          {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+          <button 
+            className="expand-control p-1 hover:bg-gray-100 rounded"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsExpanded(!isExpanded);
+            }}
+          >
+            {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+          </button>
         </div>
       </div>
       
@@ -97,29 +104,39 @@ const AnalyticsCard = ({ title, data, dataKey, colors, icon: Icon }) => {
 };
 
 const CompanyAdminDashboard = () => {
+  const navigate = useNavigate();
+  
   const analyticsCards = [
     {
       title: 'JD vs Month',
       data: jdMonthData,
-      dataKey: 'JD vs Month',
+      dataKey: 'JD_Month',
       colors: ['#4f46e5', '#60a5fa', '#6366f1', '#7c3aed', '#8b5cf6'],
-      icon: BarChart2
+      icon: BarChart2,
+      route: '/company/analytics/jd-vs-months'
     },
     {
       title: 'JD by HR',
       data: jdHRData,
       dataKey: 'JD_HR',
       colors: ['#4f46e5', '#818cf8', '#a5b4fc'],
-      icon: Users
+      icon: Users,
+      route: '/company/analytics/hr-vs-jd'
     },
     {
       title: 'Applications by Role',
       data: jdAppliedData,
       dataKey: 'JD_Applications',
       colors: ['#4f46e5', '#818cf8', '#93c5fd', '#3b82f6', '#2563eb'],
-      icon: FileText
+      icon: FileText,
+      route: '/company/analytics/applied-jd-vs-jd'
     }
   ];
+
+  const handleCardClick = (route) => {
+    console.log('Navigating to:', route); // Debug log
+    navigate(route);
+  };
 
   return (
     <div className="bg-gray-50 min-h-screen p-6">
@@ -128,14 +145,19 @@ const CompanyAdminDashboard = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {analyticsCards.map((card, index) => (
-            <AnalyticsCard
-              key={index}
-              title={card.title}
-              data={card.data}
-              dataKey={card.dataKey}
-              colors={card.colors}
-              icon={card.icon}
-            />
+            <div 
+              key={index} 
+              className="cursor-pointer"
+              onClick={() => handleCardClick(card.route)}
+            >
+              <AnalyticsCard
+                title={card.title}
+                data={card.data}
+                dataKey={card.dataKey}
+                colors={card.colors}
+                icon={card.icon}
+              />
+            </div>
           ))}
         </div>
       </div>
