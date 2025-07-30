@@ -11,12 +11,12 @@ function BreakdownBar({ label, percent, color }) {
         <span className="font-medium text-gray-700">{label}</span>
         <span className="text-xs text-gray-500">{percent.toFixed(1)}%</span>
       </div>
-      <div className="w-full bg-gray-200 rounded-full h-2.5">
+      {/* <div className="w-full bg-gray-200 rounded-full h-2.5">
         <div
           className={`${color} h-2.5 rounded-full transition-all duration-300`}
           style={{ width: `${percent}%` }}
         ></div>
-      </div>
+      </div> */}
     </div>
   );
 }
@@ -182,25 +182,27 @@ const CandidateRow = ({
         {status}
       </span>
     </td>
-    <td className="py-2 px-4 text-right">{experience} yrs</td>
-    <td className="py-2 px-4 text-right">{score}%</td>
-    <td className="py-2 px-4 text-center">
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onInterviewClick(index);
-        }}
-        className={`px-3 py-1 rounded-full font-semibold text-sm outline-none focus:ring-2 focus:ring-blue-500 transition duration-200
-          ${
-            interviewScore >= 80
-              ? "bg-green-100 text-green-800 hover:bg-green-200"
-              : interviewScore >= 50
-              ? "bg-yellow-100 text-yellow-800 hover:bg-yellow-200"
-              : "bg-red-100 text-red-800 hover:bg-red-200"
-          }`}
-      >
-        {interviewScore}%
-      </button>
+    <td className="py-2 px-4 text-right whitespace-nowrap">{experience} yrs</td>
+    {/* <td className="py-2 px-4 text-right">{score}</td> */}
+    <td className="py-2 px-4">
+      <div className="flex justify-center">
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onInterviewClick(index);
+          }}
+          className={`px-3 py-1 rounded-full font-semibold text-sm outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 min-w-[60px] text-center
+            ${
+              interviewScore >= 80
+                ? "bg-green-100 text-green-800 hover:bg-green-200"
+                : interviewScore >= 50
+                ? "bg-yellow-100 text-yellow-800 hover:bg-yellow-200"
+                : "bg-red-100 text-red-800 hover:bg-red-200"
+            }`}
+        >
+          {interviewScore}
+        </button>
+      </div>
     </td>
   </tr>
 );
@@ -216,7 +218,7 @@ const InterviewScore = () => {
       appliedDate: "22-07-2025",
       attachments: ["Resume", ],
       status: "Interview",
-      score: 70,
+      // score: 70,
       interviewScore: 67,
       department: "Legal",
       position: "Advisor",
@@ -231,7 +233,7 @@ const InterviewScore = () => {
       appliedDate: "22-07-2025",
       attachments: ["Resume"],
       status: "In-Review",
-      score: 30,
+      // score: 30,
       interviewScore: 25,
       department: "Engineering",
       position: "Developer",
@@ -246,7 +248,7 @@ const InterviewScore = () => {
       appliedDate: "22-07-2025",
       attachments: ["Resume"],
       status: "Hired",
-      score: 95,
+      // score: 95,
       interviewScore: 90,
       department: "Finance",
       position: "Analyst",
@@ -261,7 +263,7 @@ const InterviewScore = () => {
       appliedDate: "22-07-2025",
       attachments: ["Resume"  ],
       status: "In-Review",
-      score: 80,
+      //score: 80,
       interviewScore: 75,
       department: "Operations",
       position: "Manager",
@@ -276,7 +278,7 @@ const InterviewScore = () => {
       appliedDate: "22-07-2025",
       attachments: ["Resume"],
       status: "Hired",
-      score: 100,
+      //score: 100,
       interviewScore: 98,
       department: "Human Resources",
       position: "Manager",
@@ -291,7 +293,7 @@ const InterviewScore = () => {
       appliedDate: "22-07-2025",
       attachments: ["Resume"],
       status: "Interview",
-      score: 50,
+      //score: 50,
       interviewScore: 45,
       department: "IT",
       position: "Engineer",
@@ -306,7 +308,7 @@ const InterviewScore = () => {
       appliedDate: "22-07-2025",
       attachments: ["Resume"],
       status: "Rejected",
-      score: 10,
+      //score: 10,
       interviewScore: 5,
       department: "Customer Service",
       position: "Specialist",
@@ -321,7 +323,7 @@ const InterviewScore = () => {
       appliedDate: "22-07-2025",
       attachments: ["Resume"],
       status: "Interview",
-      score: 85,
+      //score: 85,
       interviewScore: 80,
       department: "R&D",
       position: "Scientist",
@@ -336,7 +338,7 @@ const InterviewScore = () => {
       appliedDate: "22-07-2025",
       attachments: ["Resume"],
       status: "Rejected",
-      score: 65,
+      //score: 65,
       interviewScore: 60,
       department: "Marketing",
       position: "Coordinator",
@@ -521,7 +523,7 @@ const InterviewScore = () => {
             Clear Filters
           </button>
         </div>
-        <div className="flex flex-wrap gap-2 mb-4">
+        {/* <div className="flex flex-wrap gap-2 mb-4">
           <button className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full font-medium">
             All
           </button>
@@ -537,7 +539,7 @@ const InterviewScore = () => {
           <button className="bg-red-50 text-red-700 px-3 py-1 rounded-full font-medium">
             Rejected
           </button>
-        </div>
+        </div> */}
         <div className="overflow-x-auto rounded-lg border border-blue-100 bg-white shadow">
           <table className="min-w-full text-sm">
             <thead className={tableHeadClass}>
@@ -550,8 +552,8 @@ const InterviewScore = () => {
                 <th className="py-3 px-4 text-left">Attachment</th>
                 <th className="py-3 px-4 text-left">Status</th>
                 <th className="py-3 px-4 text-right">Experience</th>
-                <th className="py-3 px-4 text-right">Score (%)</th>
-                <th className="py-3 px-4 text-center">Interview (%)</th>
+                {/* <th className="py-3 px-4 text-right">Score</th> */}
+                <th className="py-3 px-4 text-center w-32">Interview Score</th>
               </tr>
             </thead>
             <tbody>
