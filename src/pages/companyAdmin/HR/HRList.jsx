@@ -22,7 +22,7 @@ const hrList = [
           salaryRange: "₹10,00,000 - ₹16,00,000",
           experienceRequired: "3-5 years",
           numberOfApplicants: 25,
-          attachments: ["JobDescription.pdf"],
+          // attachments: ["JobDescription.pdf"],
         },
       },
       {

@@ -16,11 +16,11 @@ import HRDashboard from './pages/hr/Dashboard.jsx';
 import CandidateHomePage from './pages/Candidate/Dashbord.jsx';
 import CandidateProfile from './pages/Candidate/profileBuilder.jsx';
 import Profile from './pages/companyAdmin/companyProfile.jsx';
-import CompanyAdminDashboard from './pages/hr/ShortlistProceed.jsx';
+// import CompanyAdminDashboard from './pages/hr/ShortlistProceed.jsx';
 import CandidateSidebar from './pages/Candidate/ApplyToJob.jsx';
 import HRProfilePage from './pages/hr/hrprofile.jsx';
 import HRList from './pages/companyAdmin/HR/HRList.jsx';
-
+import CompanyAdminDashboard from './pages/companyAdmin/HR/Home.jsx';
 
 
 function App() {
@@ -50,6 +50,7 @@ function App() {
         <Route path="/hrlist" element={<HRList />} />
         <Route path="/hrprofile" element={<HRProfilePage />} />
         <Route path="/hrprofile/:hrId" element={<HRProfilePage />} />
+        {/* <Route path="/hrdashboard" element={<HRDashboard />} /> */}
       
         {/* Removed routes for Header, Footer, and CandidateBox. Use them only inside page components. */}
          {/* Catch-all route for 404 Not Found */}
