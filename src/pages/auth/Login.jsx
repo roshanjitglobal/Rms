@@ -32,6 +32,7 @@ const Login = () => {
       // Check for HR login
       if (form.email === 'hr@gmail.com') {
         if (form.password === 'password123') {
+             localStorage.setItem('userRole', 'HR');
           navigate('/hrdashboard');
           return;
         } else {
@@ -44,16 +45,23 @@ const Login = () => {
       }
       // Check for company admin login (for backward compatibility)
       if (form.email === 'company@gmail.com' && form.password === 'password123') {
+        localStorage.setItem('userRole', 'companyAdmin');
         navigate('/hr-dashboard');
         return;
       }
 
       // Check for candidate login
       if (form.email === 'candidate@gmail.com' && form.password === 'password123') {
+           localStorage.setItem('userRole', 'candidate');
         navigate('/candidate/dashboard');
         return;
       }
-
+      // Check for superadmin login
+      if (form.email === 'superadmin@gmail.com' && form.password === 'password123') {
+           localStorage.setItem('userRole', 'SuperAdmin');
+        navigate('/super-admin');
+        return;
+      }
       // If we get here, credentials are invalid
       setErrors({
         ...tempErrors,

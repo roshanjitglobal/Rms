@@ -15,13 +15,9 @@ import {
 
 const menuItems = [
   { name: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/candidate/dashboard' },
-  { name: 'Profile', icon: <User size={20} />, path: '/candidate/profile' },
-  // { name: 'Upload CV', icon: <FilePlus size={20} />, path: '/candidate/upload-cv' },
-  // { name: 'Job Listings', icon: <Briefcase size={20} />, path: '/candidate/jobs' },
   { name: 'My Applications', icon: <FileText size={20} />, path: '/candidate/applications' },
-  { name: 'Notifications', icon: <Bell size={20} />, path: '/candidate/notifications' },
+  { name: 'Profile', icon: <User size={20} />, path: '/candidate/profile' },
   { name: 'Settings', icon: <Settings size={20} />, path: '/candidate/settings' },
-  { name: 'Logout', icon: <LogOut size={20} />, path: '/logout' },
 ];
 
 const CandidateSidebar = () => {

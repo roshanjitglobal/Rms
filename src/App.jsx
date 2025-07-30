@@ -3,6 +3,9 @@ import { useLocation, BrowserRouter as Router, Routes, Route, Navigate } from 'r
 import { Provider } from 'react-redux';
 import store from './store/store';
 
+import ScrollToTop from './components/ScrollToTop';
+import DashboardHeader from "./pages/companyAdmin/HR/DashboardHeader";
+
 // Landing Page Components
 import Header from "./pages/landing/Components/Hearder";
 import Footer from "./pages/landing/Components/Footer";
@@ -22,16 +25,15 @@ import HRRegister from './pages/auth/HRRegister';
 import CandidateRegister from './pages/auth/candidateRegister';
 
 // Layouts
-import HRLayout from "./layouts/HRLayout";
-import CompanyAdminLayout from "./layouts/companyAdminLayout";
-import CandidateLayout from "./layouts/candidateLayout";
+import HRLayout from "./layouts/Layout";
+
 
 
 // HR Pages
 import HRDashboard from './pages/hr/Dashboard';
 import UploadResume from './pages/hr/UploadResume';
 import ManageJD from './pages/hr/Managejd';
-import InterviewScore from './pages/hr/InterviewScore';
+// import InterviewScore from './pages/hr/InterviewScore';
 import JDListStatus from './pages/hr/JD/JDListStatus';
 import HRProfile from './pages/hr/Profile';
 import InterviewDetail from './pages/hr/InterviewDetail';
@@ -70,8 +72,10 @@ const AppContent = () => {
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 2000);
     return () => clearTimeout(timer);
-  }, [location]);
 
+  }, [location]);
+ const userRole = localStorage.getItem('userRole')
+ console.log('userRole', userRole)
   return (
     <>
       {isLoading ? (
@@ -79,9 +83,7 @@ const AppContent = () => {
       ) : (
         <div className="min-h-screen flex flex-col">
          
-          {!location.pathname.startsWith('/hr/') && !location.pathname.startsWith('/company/') && !location.pathname.startsWith('/candidate/') && (
-            <DashboardHeader isDashboard={false} />
-          )}
+        
           
           <main className="flex-1">
             <Routes>
@@ -98,8 +100,8 @@ const AppContent = () => {
               
               
               {/* HR Routes */}
-              <Route path="/hr" element={<HRLayout />}>
-                <Route index element={<Navigate to="dashboard" replace />} />
+              <Route path="/hr" element={<HRLayout userRole={userRole} />}>
+                {/* <Route index element={<Navigate to="dashboard" replace />} />
                 <Route path="dashboard" element={<HRDashboard />} />
                 <Route path="managejd" element={<ManageJD />} />
                 <Route path="uploadresume" element={<UploadResume />} />
@@ -114,11 +116,16 @@ const AppContent = () => {
                 {/* Redirect old HR routes */}
                 <Route path="*" element={<Navigate to="/hr/dashboard" replace />} />
 
-                
+                  <Route path="dashboard" element={<HRDashboard />} />
+        <Route path="managejd" element={<ManageJD />} />
+        {/* <Route path="interviewscore" element={<InterviewScore />} /> */}
+        {/* <Route path="jdliststatus" element={<JDStatus />} /> */}
+        {/* <Route path="profile" element={<Profile />} />
+        <Route path="settings" element={<Settings />} /> */}
               </Route>
               
               {/* Company Admin Routes */}
-              <Route path="/company" element={<CompanyAdminLayout />}>
+              <Route path="/company" element={<HRLayout userRole={userRole} />}>
                 <Route index element={<Navigate to="dashboard" replace />} />
                 <Route path="dashboard" element={<CompanyAdminDashboard />} />
                 <Route path="analytics" element={<Navigate to="jd-vs-months" replace />} />
@@ -135,7 +142,7 @@ const AppContent = () => {
               </Route>
               
               {/* Candidate Routes */}
-              <Route path="/candidate" element={<CandidateLayout />}> 
+              <Route path="/candidate" element={<HRLayout userRole={userRole} /> }>
                 <Route index element={<Navigate to="dashboard" replace />} />
                 <Route path="dashboard" element={<CandidateDashboard />} />
                 <Route path="profile" element={<CandidateProfile />} />
@@ -146,12 +153,12 @@ const AppContent = () => {
                 <Route path="*" element={<Navigate to="/candidate/dashboard" replace />} />
               </Route>
               
-              Legacy Redirects
+        
               <Route path="/dashboard" element={<Navigate to="/hr/dashboard" replace />} />
               <Route path="/hrdashboard" element={<Navigate to="/hr/dashboard" replace />} />
               <Route path="/managejd" element={<Navigate to="/hr/managejd" replace />} />
               <Route path="/uploadresume" element={<Navigate to="/hr/uploadresume" replace />} />
-              <Route path="/interviewscore" element={<Navigate to="/hr/interviewscore" replace />} />
+              {/* <Route path="/interviewscore" element={<Navigate to="/hr/interviewscore" replace />} /> */}
               <Route path="/jdliststatus" element={<Navigate to="/hr/jdliststatus" replace />} />
               <Route path="/hr-dashboard" element={<Navigate to="/company/dashboard" replace />} />
               <Route path="/analytics" element={<Navigate to="/company/analytics" replace />} />
@@ -161,12 +168,16 @@ const AppContent = () => {
               <Route path="/view-hr" element={<Navigate to="/company/view-hr" replace />} />
               <Route path="/notifications" element={<Navigate to="/company/notifications" replace />} />
 
-              //super-admin routes
-              <Route path="/super-admin" element={<SuperAdminHome />} />
-              <Route path="/feedback-center" element={<FeedbackCenter />} />
-              <Route path="/support-center" element={<SupportCenter />} />
-              <Route path="/manage-sub-admin" element={<SubSuperAdminManager />} />
-              <Route path="/company-management" element={<CompanyManagementDashboard />} />
+              {/* Super Admin Routes */}
+              <Route path="/super-admin" element={<HRLayout userRole={userRole} />}>
+              <Route index element={<SuperAdminHome />} />
+              <Route path="feedback-center" element={<FeedbackCenter />} />
+              <Route path="support-center" element={<SupportCenter />} />
+              <Route path="manage-sub-admin" element={<SubSuperAdminManager />} />
+              <Route path="company-management" element={<CompanyManagementDashboard />} />
+               <Route path="*" element={<Navigate to="/super-admin" replace />} />
+              </Route>
+
               
               
               {/* Authenticated Redirects */}
@@ -186,8 +197,6 @@ const AppContent = () => {
   );
 };
 
-import ScrollToTop from './components/ScrollToTop';
-import DashboardHeader from "./pages/companyAdmin/HR/DashboardHeader";
 
 const App = () => {
   return (
