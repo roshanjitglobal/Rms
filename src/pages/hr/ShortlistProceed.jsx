@@ -46,7 +46,7 @@ const Sidebar = ({ collapsed, toggleSidebar }) => (
   <aside
     className={`${
       collapsed ? 'w-20' : 'w-64'
-    } bg-[#4f46e5] text-white min-h-screen p-4 transition-all duration-300 shadow-lg`}
+    } bg-[#4f46e5] text-black min-h-screen p-4 transition-all duration-300 shadow-lg`}
   >
     <div className="flex justify-between items-center mb-6">
       {!collapsed && <h2 className="text-xl font-bold">Company Admin</h2>}

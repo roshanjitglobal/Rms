@@ -274,7 +274,7 @@ const hrList = [
   },
 ];
 
-function App() {
+function HRList() {
   const [hrs, setHrs] = useState(hrList);
   const [selectedHr, setSelectedHr] = useState(null);
   const [showJdModal, setShowJdModal] = useState(false);
@@ -315,7 +315,7 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6 text-center">Company Admin Screen</h1>
+       
         <div className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
           <div className="flex items-center space-x-3 w-full sm:w-auto">
             <label htmlFor="jd-filter" className="text-sm font-semibold text-gray-600">
@@ -567,4 +567,4 @@ function DetailItem({ label, value }) {
   );
 }
 
-export default App;
+export default HRList;
