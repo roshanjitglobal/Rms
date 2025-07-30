@@ -249,7 +249,7 @@ const HRProfilePage = ({ selectedHRId = 1 }) => {
               value={formData.role}
               onChange={handleInputChange}
             />
-            {/* Social Media section */}
+            {/* Social Media section  */}
             <div className="text-left mt-6">
               <h4 className="text-xs font-semibold text-gray-600 mb-3">Social Media</h4>
               <div className="flex items-center space-x-3">

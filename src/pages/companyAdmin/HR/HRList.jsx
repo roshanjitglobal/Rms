@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const hrList = [
   {
@@ -275,6 +276,7 @@ const hrList = [
 ];
 
 function HRList() {
+  const navigate = useNavigate();
   const [hrs, setHrs] = useState(hrList);
   const [selectedHr, setSelectedHr] = useState(null);
   const [showJdModal, setShowJdModal] = useState(false);
@@ -369,8 +371,8 @@ function HRList() {
                 </div>
                 <div className="flex flex-1 flex-col justify-end p-6 space-y-2">
                   <button
-                    onClick={() => alert(`View Profile clicked for ${hr.name}`)}
-                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded"
+                    onClick={() => navigate(`/hrprofile/${hr.id}`)}
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded w-full"
                   >
                     View Profile
                   </button>
