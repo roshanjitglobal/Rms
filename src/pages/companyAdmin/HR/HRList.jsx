@@ -315,7 +315,7 @@ function HRList() {
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <div className="max-w-7xl mx-auto">
-       
+        <h1 className="text-3xl font-bold mb-6 text-center">Company Admin Screen</h1>
         <div className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
           <div className="flex items-center space-x-3 w-full sm:w-auto">
             <label htmlFor="jd-filter" className="text-sm font-semibold text-gray-600">
@@ -379,7 +379,7 @@ function HRList() {
                       setSelectedHr(hr);
                       setShowJdModal(true);
                     }}
-                    className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded"
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded"
                   >
                     List of JD {hr.jds.length > 0 && `(${hr.jds.length})`}
                   </button>
