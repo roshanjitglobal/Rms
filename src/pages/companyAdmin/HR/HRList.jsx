@@ -11,7 +11,7 @@ const hrList = [
     jds: [
       {
         id: 101,
-        title: "Software Developer",
+        title: "Software full stack developer",
         department: "IT",
         location: "Mumbai",
         dateUploaded: "2025-07-14",
