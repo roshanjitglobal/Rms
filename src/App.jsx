@@ -142,11 +142,11 @@ const AppContent = () => {
                 <Route path="*" element={<Navigate to="/candidate/dashboard" replace />} />
               </Route>
               
-              {/* Legacy Redirects */}
-              {/* <Route path="/dashboard" element={<Navigate to="/hr/dashboard" replace />} /> */}
-              {/* <Route path="/hrdashboard" element={<Navigate to="/hr/dashboard" replace />} /> */}
-              {/* <Route path="/managejd" element={<Navigate to="/hr/managejd" replace />} /> */}
-              {/* <Route path="/uploadresume" element={<Navigate to="/hr/uploadresume" replace />} />
+              Legacy Redirects
+              <Route path="/dashboard" element={<Navigate to="/hr/dashboard" replace />} />
+              <Route path="/hrdashboard" element={<Navigate to="/hr/dashboard" replace />} />
+              <Route path="/managejd" element={<Navigate to="/hr/managejd" replace />} />
+              <Route path="/uploadresume" element={<Navigate to="/hr/uploadresume" replace />} />
               <Route path="/interviewscore" element={<Navigate to="/hr/interviewscore" replace />} />
               <Route path="/jdliststatus" element={<Navigate to="/hr/jdliststatus" replace />} />
               <Route path="/hr-dashboard" element={<Navigate to="/company/dashboard" replace />} />
@@ -155,7 +155,7 @@ const AppContent = () => {
               <Route path="/manage-hr" element={<Navigate to="/company/manage-hr" replace />} />
               <Route path="/settings" element={<Navigate to="/company/settings" replace />} />
               <Route path="/view-hr" element={<Navigate to="/company/view-hr" replace />} />
-              <Route path="/notifications" element={<Navigate to="/company/notifications" replace />} /> */}
+              <Route path="/notifications" element={<Navigate to="/company/notifications" replace />} />
 
               //super-admin routes
               <Route path="/super-admin" element={<SuperAdminHome />} />
