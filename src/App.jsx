@@ -59,6 +59,7 @@ import FeedbackCenter from "./pages/auth/superAdmin/feedbackCenter";
 import SupportCenter from "./pages/auth/superAdmin/SupportCenter";
 import SubSuperAdminManager from "./pages/auth/superAdmin/ManageSubAdmin";
 import CompanyManagementDashboard from "./pages/auth/superAdmin/company/companyList";
+import HrManageJDs from "./pages/hr/Managejd";
 
 
 
@@ -109,8 +110,11 @@ const AppContent = () => {
                 <Route path="settings" element={<SettingsScreen />} />
                 <Route path="notifications" element={<Notifications />} />
                 <Route path="candidate-management" element={<CandidateManagement />} />
+                <Route path="managejd/hr" element={<HrManageJDs />} />
                 {/* Redirect old HR routes */}
                 <Route path="*" element={<Navigate to="/hr/dashboard" replace />} />
+
+                
               </Route>
               
               {/* Company Admin Routes */}

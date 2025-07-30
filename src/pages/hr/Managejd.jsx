@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Eye, FileText, Users } from 'lucide-react';
+import { Plus, Eye, FileText, Users, Upload, X } from 'lucide-react';
 
 const HrManageJDs = () => {
   const [jdList, setJdList] = useState([
@@ -7,11 +7,20 @@ const HrManageJDs = () => {
     { id: 2, title: 'Backend Developer', date: '2025-07-26', fileName: 'backend-jd.pdf', applications: 19, status: 'In Progress' },
   ]);
   const [showModal, setShowModal] = useState(false);
+  const [showBulkUploadModal, setShowBulkUploadModal] = useState(false);
+  const [selectedJdForUpload, setSelectedJdForUpload] = useState(null);
   const [newJD, setNewJD] = useState({ title: '', file: null, status: 'Open' });
+  const [bulkResumes, setBulkResumes] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
+  const [isBulkUploading, setIsBulkUploading] = useState(false);
 
   const handleFileChange = (e) => {
     setNewJD({ ...newJD, file: e.target.files[0] });
+  };
+
+  const handleBulkResumeChange = (e) => {
+    const files = Array.from(e.target.files);
+    setBulkResumes(files);
   };
 
   const handleSubmit = () => {
@@ -30,12 +39,45 @@ const HrManageJDs = () => {
         setShowModal(false);
         setNewJD({ title: '', file: null, status: 'Open' });
         setIsUploading(false);
-      }, 1000); // Simulate upload delay
+      }, 1000);
+    }
+  };
+
+  const handleBulkUpload = () => {
+    if (bulkResumes.length > 0 && selectedJdForUpload) {
+      setIsBulkUploading(true);
+      setTimeout(() => {
+        // Update applications count for the selected JD
+        setJdList(jdList.map(jd => 
+          jd.id === selectedJdForUpload.id 
+            ? { ...jd, applications: jd.applications + bulkResumes.length }
+            : jd
+        ));
+        setShowBulkUploadModal(false);
+        setBulkResumes([]);
+        setSelectedJdForUpload(null);
+        setIsBulkUploading(false);
+      }, 2000); // Simulate bulk upload delay
     }
   };
 
   const handleStatusChange = (id, newStatus) => {
     setJdList(jdList.map(jd => jd.id === id ? { ...jd, status: newStatus } : jd));
+  };
+
+  const openBulkUploadModal = (jd) => {
+    setSelectedJdForUpload(jd);
+    setShowBulkUploadModal(true);
+  };
+
+  const closeBulkUploadModal = () => {
+    setShowBulkUploadModal(false);
+    setBulkResumes([]);
+    setSelectedJdForUpload(null);
+  };
+
+  const removeResumeFile = (index) => {
+    setBulkResumes(bulkResumes.filter((_, i) => i !== index));
   };
 
   const getStatusStyles = (status) => {
@@ -98,7 +140,8 @@ const HrManageJDs = () => {
                 <option value="Closed">Closed</option>
               </select>
             </div>
-            <div className="flex items-center justify-between">
+            
+            <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 <Users className="text-indigo-600" size={16} />
                 <p className="text-sm font-medium text-gray-600">{jd.applications} Applications</p>
@@ -107,6 +150,15 @@ const HrManageJDs = () => {
                 <Eye size={16} /> View
               </button>
             </div>
+
+            {/* Bulk Upload Button */}
+            <button
+              onClick={() => openBulkUploadModal(jd)}
+              className="w-full bg-gradient-to-r from-green-500 to-emerald-500 text-white px-4 py-2 rounded-lg hover:from-green-600 hover:to-emerald-600 transition-all duration-200 flex items-center justify-center gap-2 text-sm font-medium mb-3"
+            >
+              <Upload size={16} /> Upload Bulk Resumes
+            </button>
+
             <div className="mt-3">
               <div className="w-full bg-gray-200 rounded-full h-1.5">
                 <div
@@ -120,7 +172,7 @@ const HrManageJDs = () => {
         ))}
       </div>
 
-      {/* Upload Modal */}
+      {/* Upload JD Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 transition-opacity duration-300">
           <div className="bg-white p-8 rounded-2xl w-full max-w-md shadow-2xl transform transition-all scale-100 animate-in">
@@ -207,6 +259,124 @@ const HrManageJDs = () => {
                     </>
                   ) : (
                     'Upload'
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Bulk Resume Upload Modal */}
+      {showBulkUploadModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 transition-opacity duration-300">
+          <div className="bg-white p-8 rounded-2xl w-full max-w-2xl shadow-2xl transform transition-all scale-100 animate-in max-h-[80vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-xl font-bold text-gray-800">
+                Upload Bulk Resumes for: {selectedJdForUpload?.title}
+              </h3>
+              <button
+                onClick={closeBulkUploadModal}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <X size={24} />
+              </button>
+            </div>
+
+            <div className="space-y-5">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Select Multiple Resume Files
+                </label>
+                <input
+                  type="file"
+                  multiple
+                  accept=".pdf,.doc,.docx"
+                  className="w-full text-sm text-gray-500 file:mr-4 file:py-3 file:px-4 file:rounded-lg file:border-0 file:bg-green-100 file:text-green-700 hover:file:bg-green-200 transition-all duration-200"
+                  onChange={handleBulkResumeChange}
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Supported formats: PDF, DOC, DOCX. You can select multiple files at once.
+                </p>
+              </div>
+
+              {/* Selected Files List */}
+              {bulkResumes.length > 0 && (
+                <div className="border rounded-lg p-4 bg-gray-50 max-h-60 overflow-y-auto">
+                  <h4 className="text-sm font-medium text-gray-700 mb-3">
+                    Selected Files ({bulkResumes.length})
+                  </h4>
+                  <div className="space-y-2">
+                    {bulkResumes.map((file, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center justify-between bg-white p-3 rounded-lg border"
+                      >
+                        <div className="flex items-center gap-2">
+                          <FileText size={16} className="text-green-600" />
+                          <span className="text-sm text-gray-700 truncate max-w-xs">
+                            {file.name}
+                          </span>
+                          <span className="text-xs text-gray-500">
+                            ({(file.size / 1024 / 1024).toFixed(2)} MB)
+                          </span>
+                        </div>
+                        <button
+                          onClick={() => removeResumeFile(index)}
+                          className="text-red-500 hover:text-red-700 transition-colors"
+                        >
+                          <X size={16} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className="flex justify-end gap-3 mt-6">
+                <button
+                  className="px-5 py-2.5 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-all duration-200"
+                  onClick={closeBulkUploadModal}
+                  disabled={isBulkUploading}
+                >
+                  Cancel
+                </button>
+                <button
+                  className={`px-5 py-2.5 bg-gradient-to-r from-green-600 to-emerald-500 text-white rounded-lg hover:from-green-700 hover:to-emerald-600 transition-all duration-200 flex items-center gap-2 ${
+                    isBulkUploading || bulkResumes.length === 0 ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
+                  onClick={handleBulkUpload}
+                  disabled={isBulkUploading || bulkResumes.length === 0}
+                >
+                  {isBulkUploading ? (
+                    <>
+                      <svg
+                        className="animate-spin h-5 w-5"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
+                      </svg>
+                      Uploading {bulkResumes.length} resumes...
+                    </>
+                  ) : (
+                    <>
+                      <Upload size={16} />
+                      Upload {bulkResumes.length} Resume{bulkResumes.length !== 1 ? 's' : ''}
+                    </>
                   )}
                 </button>
               </div>
