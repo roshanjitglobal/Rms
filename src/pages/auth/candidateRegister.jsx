@@ -101,12 +101,12 @@ const Register = () => {
         <div className="w-full md:w-[420px] mx-auto p-6 md:p-8 flex flex-col justify-center relative bg-white">
             <div className="hidden md:block absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-[#181ed4] to-[#6a82fb] rounded-l-2xl" />
             <div className="mb-10 flex flex-col items-center md:items-start">
-              <div className="flex items-center mb-2">
+              {/* <div className="flex items-center mb-2">
                 <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#181ed4] to-[#6a82fb] flex items-center justify-center shadow-lg">
                   <span className="text-white font-extrabold text-2xl tracking-wider">RMS</span>
                 </div>
                 <span className="ml-3 text-2xl font-bold text-[#181ed4] tracking-wide">RecruitMS</span>
-              </div>
+              </div> */}
               <span className="text-indigo-500 font-semibold text-base mt-2">Welcome! Create your free account</span>
             </div>
 

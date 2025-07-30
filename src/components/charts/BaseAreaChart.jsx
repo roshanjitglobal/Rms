@@ -12,7 +12,15 @@ const BaseAreaChart = ({
   stacked = false,
   tooltipFormatter,
   legendFormatter,
-  xAxisProps = {},
+  xAxisProps = {
+    angle: -25,                // Tilt labels for better readability
+    textAnchor: 'end',         // Anchor text to the end
+    interval: 0,               // Show all labels
+    minTickGap: 10,            // Minimum gap between ticks
+    tickMargin: 10,            // Add some margin to prevent text cutoff
+    height: 60,                // Increase height to accommodate rotated labels
+    ...xAxisProps              // Allow overrides from props
+  },
   yAxisProps = {},
   areaProps = {},
   children,
@@ -83,7 +91,12 @@ const BaseAreaChart = ({
             dataKey={xKey}
             axisLine={false}
             tickLine={false}
-            tick={{ fill: '#6b7280', fontSize: 12, fontWeight: 500 }}
+            tick={{
+              fill: '#6b7280',
+              fontSize: 12,
+              fontWeight: 500,
+              ...(xAxisProps.tick || {})  // Allow tick props to be overridden
+            }}
             {...xAxisProps}
           />
           <YAxis 

@@ -101,7 +101,7 @@ const CompanyAdminDashboard = () => {
     {
       title: 'JD vs Month',
       data: jdMonthData,
-      dataKey: 'JD_Month',
+      dataKey: 'JD vs Month',
       colors: ['#4f46e5', '#60a5fa', '#6366f1', '#7c3aed', '#8b5cf6'],
       icon: BarChart2
     },

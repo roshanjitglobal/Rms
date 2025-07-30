@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronDown, Briefcase, Clock, Search } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import Logo from '../../../components/Logo';
 
 const Header = ({ isDashboard }) => {
   const navigate = useNavigate();
@@ -11,7 +12,6 @@ const Header = ({ isDashboard }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-  const rmsLogo = 'https://static.vecteezy.com/system/resources/previews/010/179/524/original/rms-letter-technology-logo-design-on-white-background-rms-creative-initials-letter-it-logo-concept-rms-letter-design-vector.jpg';
 
   // Handle window resize
   useEffect(() => {
@@ -39,7 +39,7 @@ const Header = ({ isDashboard }) => {
       document.body.style.overflow = '';
     };
   }, [isMobileMenuOpen]);
-  
+
   const solutionsRef = useRef(null);
 
   useEffect(() => {
@@ -92,15 +92,11 @@ const Header = ({ isDashboard }) => {
   }, [isMobileMenuOpen]);
 
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/50 shadow-lg">
-      <div className="container mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
-          <Link to="/" className="flex items-center space-x-3 group">
-            <img 
-              src="https://static.vecteezy.com/system/resources/previews/010/179/524/original/rms-letter-technology-logo-design-on-white-background-rms-creative-initials-letter-it-logo-concept-rms-letter-design-vector.jpg" 
-              alt="rms" 
-              className="w-16 h-16" 
-            />
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/50 shadow-sm">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between py-2">
+          <Link to="/" className="flex items-center space-x-2 group">
+            <Logo className="h-12 w-auto" />
           </Link>
           
           <nav className={`${isMobileMenuOpen ? 'hidden' : 'hidden md:flex'} items-center space-x-10`}>
@@ -147,7 +143,7 @@ const Header = ({ isDashboard }) => {
                           className="flex items-center gap-2 px-4 py-3 text-base text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200"
                           onClick={() => setIsProductsOpen(false)}
                         >
-                          <img src={rmsLogo} alt="RMS Logo" className="h-5 w-5 object-contain" />
+                          <Logo className="h-5 w-5 object-contain" />
                           {product.label}
                         </Link>
                       ) : (
@@ -156,7 +152,7 @@ const Header = ({ isDashboard }) => {
                           className="flex items-center gap-2 w-full text-left px-4 py-3 text-base text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200"
                           onClick={() => { setIsProductsOpen(false); setProductModal(product.label); }}
                         >
-                          <img src={rmsLogo} alt="RMS Logo" className="h-5 w-5 object-contain" />
+                          <Logo className="h-5 w-5 object-contain" />
                           {product.label}
                         </button>
                       )
@@ -273,7 +269,7 @@ const Header = ({ isDashboard }) => {
               >
                 <div className="flex items-center space-x-2 mb-4">
                   <div className="bg-gradient-to-br from-[#181ed4] to-[#6a82fb] p-2 rounded-xl shadow-lg">
-                    <img src={rmsLogo} alt="RMS Logo" className="h-6 w-6 object-contain" />
+                    <Logo className="h-6 w-6 object-contain" />
                   </div>
                   <span className="text-2xl font-bold text-[#181ed4]">RMS</span>
                 </div>
@@ -316,7 +312,7 @@ const Header = ({ isDashboard }) => {
                               onClick={() => { setIsMobileMenuOpen(false); setIsMobileProductsOpen(false); }}
                               className="block py-2 pl-4 text-base text-slate-700 hover:text-[#181ed4] transition-colors"
                             >
-                              <img src={rmsLogo} alt="RMS Logo" className="h-5 w-5 inline mr-2 object-contain" />
+                              <Logo className="h-5 w-5 inline mr-2 object-contain" />
                               {product.label}
                             </Link>
                           ) : (
@@ -325,7 +321,7 @@ const Header = ({ isDashboard }) => {
                               className="block w-full text-left py-2 pl-4 text-base text-slate-700 hover:text-[#181ed4] transition-colors"
                               onClick={() => { setIsMobileProductsOpen(false); setProductModal(product.label); }}
                             >
-                              <img src={rmsLogo} alt="RMS Logo" className="h-5 w-5 inline mr-2 object-contain" />
+                              <Logo className="h-5 w-5 inline mr-2 object-contain" />
                               {product.label}
                             </button>
                           )
@@ -343,7 +339,6 @@ const Header = ({ isDashboard }) => {
                       }}
                       className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold py-2 px-6 rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 text-lg mt-4"
                     >
-                      <img src={rmsLogo} alt="RMS Logo" className="h-5 w-5 inline mr-2 object-contain" />
                       Get Started
                     </button>
                     <button

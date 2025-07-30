@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Search, Settings, Menu, LogOut, Bell } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
-// Make sure to add your logo in the assets folder
+import Logo from '../../../components/Logo';
 
 const breadcrumbNameMap = {
   'hr-dashboard': 'Dashboard',
@@ -32,22 +32,20 @@ const DashboardHeader = ({ onSidebarToggle }) => {
   };
 
   return (
-    <header className="bg-white border-b border-gray-200 py-3 w-full px-4 sm:px-6">
-      <div className="flex items-center justify-between w-full">
+    <header className="bg-white border-b border-gray-200 w-full px-4 sm:px-6 h-16 flex items-center">
+      <div className="flex items-center justify-between w-full h-full">
         {/* Logo and Sidebar Toggle */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
           <button 
             onClick={onSidebarToggle} 
-            className="p-2 text-gray-600 hover:text-gray-900 lg:hidden -ml-2"
+            className="p-1 text-gray-600 hover:text-gray-900 lg:hidden"
             aria-label="Toggle sidebar"
           >
-            <Menu className="w-6 h-6" />
+            <Menu className="w-5 h-5" />
           </button>
           <div className="flex items-center">
-            <img 
-              src="https://static.vecteezy.com/system/resources/previews/010/179/524/original/rms-letter-technology-logo-design-on-white-background-rms-creative-initials-letter-it-logo-concept-rms-letter-design-vector.jpg" 
-              alt="Company Logo" 
-              className="h-10 w-auto" 
+            <Logo 
+              className="h-8 w-auto" 
               onClick={() => navigate('/')} 
               style={{ cursor: 'pointer' }}
             />

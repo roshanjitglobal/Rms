@@ -39,6 +39,7 @@ import InterviewDetail from './pages/hr/InterviewDetail';
 // Company Admin Pages
 import CompanyAdminDashboard from "./pages/companyAdmin/HR/Home";
 import Profile from "./pages/companyAdmin/HR/Profile";
+import CompanyHRProfile from "./pages/companyAdmin/HR/HRProfile";
 import ManageHR from "./pages/companyAdmin/HR/ManageHR";
 import HrVsJd from "./pages/companyAdmin/HR/analytics/HrVsJd";
 import JdVsMonths from "./pages/companyAdmin/HR/analytics/JdVsMonths";
@@ -111,6 +112,7 @@ const AppContent = () => {
                 <Route path="analytics/jd-vs-months" element={<JdVsMonths />} />
                 <Route path="analytics/applied-jd-vs-jd" element={<AppliedJdVsJd />} />
                 <Route path="profile" element={<Profile />} />
+                <Route path="hr-profile" element={<CompanyHRProfile />} />
                 <Route path="manage-hr" element={<ManageHR />} />
                 <Route path="settings" element={<SettingsScreen />} />
                 <Route path="view-hr" element={<ViewHR />} />

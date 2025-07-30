@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, Phone, Globe, MapPin } from 'lucide-react';
-import { APP_LOGO } from '../../../config/constants';
+import Logo from '../../../components/Logo';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -13,13 +13,9 @@ const Footer = () => {
           <div className="lg:col-span-2">
             <div className="flex items-center space-x-2 mb-1">
               <div className="bg-white p-1 rounded-lg">
-                <img 
-                  src={APP_LOGO} 
-                  alt="RMS Logo" 
-                  className="h-8 w-8 object-contain"
-                />
+                <Logo className="h-12 w-12 object-contain" />
               </div>
-              <span className="text-2xl font-bold text-[#181ed4] bg-white px-2 py-1 rounded">RMS</span>
+              {/* <span className="text-2xl font-bold text-[#181ed4] bg-white px-2 py-1 rounded">RMS</span> */}
             </div>
             <p className="text-white max-w-md mb-1">
               Revolutionizing recruitment with intelligent automation and seamless candidate management. 

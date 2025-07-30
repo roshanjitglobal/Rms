@@ -1,1 +1,1 @@
-export const APP_LOGO = '/src/assets/react.svg';
+export const APP_LOGO = '/src/assets/logo.png';

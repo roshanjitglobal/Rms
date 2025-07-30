@@ -223,7 +223,7 @@ const Home = () => {
                 />
                 <div className="flex gap-1 mb-2">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 text-yellow-400" />
+                    <Star key={i} className="h-4 w-4 text-yellow-400" fill="currentColor" />
                   ))}
                 </div>
                 <p className="text-gray-700 mb-3">"{t.text}"</p>
