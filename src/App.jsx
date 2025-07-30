@@ -101,11 +101,11 @@ const AppContent = () => {
               
               {/* HR Routes */}
               <Route path="/hr" element={<HRLayout userRole={userRole} />}>
-                {/* <Route index element={<Navigate to="dashboard" replace />} />
+                <Route index element={<Navigate to="dashboard" replace />} />
                 <Route path="dashboard" element={<HRDashboard />} />
                 <Route path="managejd" element={<ManageJD />} />
                 <Route path="uploadresume" element={<UploadResume />} />
-                <Route path="interviewscore" element={<InterviewScore />} />
+                {/* <Route path="interviewscore" element={<InterviewScore />} /> */}
                 <Route path="jdliststatus" element={<JDListStatus />} />
                 <Route path="profile" element={<HRProfile />} />
                 <Route path="interview/:id" element={<InterviewDetail />} />
@@ -113,18 +113,18 @@ const AppContent = () => {
                 <Route path="notifications" element={<Notifications />} />
                 <Route path="candidate-management" element={<CandidateManagement />} />
                 <Route path="managejd/hr" element={<HrManageJDs />} />
-                {/* Redirect old HR routes */}
+                {/* Redirect old HR routes
                 <Route path="*" element={<Navigate to="/hr/dashboard" replace />} />
 
                   <Route path="dashboard" element={<HRDashboard />} />
         <Route path="managejd" element={<ManageJD />} />
-        {/* <Route path="interviewscore" element={<InterviewScore />} /> */}
-        {/* <Route path="jdliststatus" element={<JDStatus />} /> */}
-        {/* <Route path="profile" element={<Profile />} />
+        <Route path="interviewscore" element={<InterviewScore />} />
+        <Route path="jdliststatus" element={<JDStatus />} />
+        <Route path="profile" element={<Profile />} />
         <Route path="settings" element={<Settings />} /> */}
               </Route>
               
-              {/* Company Admin Routes */}
+              Company Admin Routes
               <Route path="/company" element={<HRLayout userRole={userRole} />}>
                 <Route index element={<Navigate to="dashboard" replace />} />
                 <Route path="dashboard" element={<CompanyAdminDashboard />} />
@@ -137,11 +137,11 @@ const AppContent = () => {
                 <Route path="settings" element={<SettingsScreen />} />
                 <Route path="view-hr" element={<ViewHR />} />
                 <Route path="notifications" element={<Notifications />} />
-                {/* Redirect old company admin routes */}
+                Redirect old company admin routes
                 <Route path="*" element={<Navigate to="/company/dashboard" replace />} />
               </Route>
               
-              {/* Candidate Routes */}
+              Candidate Routes
               <Route path="/candidate" element={<HRLayout userRole={userRole} /> }>
                 <Route index element={<Navigate to="dashboard" replace />} />
                 <Route path="dashboard" element={<CandidateDashboard />} />
@@ -149,7 +149,7 @@ const AppContent = () => {
                 <Route path="applications" element={<Application />} />
                 <Route path="settings" element={<SettingsScreen />} />
                 <Route path="notifications" element={<Notifications />} />
-                {/* Redirect old candidate routes */}
+                Redirect old candidate routes
                 <Route path="*" element={<Navigate to="/candidate/dashboard" replace />} />
               </Route>
               
@@ -158,7 +158,7 @@ const AppContent = () => {
               <Route path="/hrdashboard" element={<Navigate to="/hr/dashboard" replace />} />
               <Route path="/managejd" element={<Navigate to="/hr/managejd" replace />} />
               <Route path="/uploadresume" element={<Navigate to="/hr/uploadresume" replace />} />
-              {/* <Route path="/interviewscore" element={<Navigate to="/hr/interviewscore" replace />} /> */}
+              <Route path="/interviewscore" element={<Navigate to="/hr/interviewscore" replace />} />
               <Route path="/jdliststatus" element={<Navigate to="/hr/jdliststatus" replace />} />
               <Route path="/hr-dashboard" element={<Navigate to="/company/dashboard" replace />} />
               <Route path="/analytics" element={<Navigate to="/company/analytics" replace />} />
@@ -168,7 +168,7 @@ const AppContent = () => {
               <Route path="/view-hr" element={<Navigate to="/company/view-hr" replace />} />
               <Route path="/notifications" element={<Navigate to="/company/notifications" replace />} />
 
-              {/* Super Admin Routes */}
+              //Super Admin Routes
               <Route path="/super-admin" element={<HRLayout userRole={userRole} />}>
               <Route index element={<SuperAdminHome />} />
               <Route path="feedback-center" element={<FeedbackCenter />} />
@@ -176,7 +176,7 @@ const AppContent = () => {
               <Route path="manage-sub-admin" element={<SubSuperAdminManager />} />
               <Route path="company-management" element={<CompanyManagementDashboard />} />
                <Route path="*" element={<Navigate to="/super-admin" replace />} />
-              </Route>
+              </Route> 
 
               
               
