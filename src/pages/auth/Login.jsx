@@ -53,6 +53,12 @@ const Login = () => {
         navigate('/candidate/dashboard');
         return;
       }
+      // Check for super admin login
+      if (form.email === 'superadmin@gmail.com' && form.password === 'password123') {
+        navigate('/super-admin');
+        return;
+      }
+
 
       // If we get here, credentials are invalid
       setErrors({

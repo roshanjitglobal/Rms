@@ -32,7 +32,7 @@ const DashboardHeader = ({ onSidebarToggle }) => {
   };
 
   return (
-    <header className="bg-white border-b border-gray-200 w-full px-4 sm:px-6 h-16 flex items-center">
+    <header className="bg-white border-b border-gray-200 w-full px-4 sm:px-6 h-16 flex items-center fixed top-0 right-0 z-10">
       <div className="flex items-center justify-between w-full h-full">
         {/* Logo and Sidebar Toggle */}
         <div className="flex items-center gap-2">
@@ -45,7 +45,7 @@ const DashboardHeader = ({ onSidebarToggle }) => {
           </button>
           <div className="flex items-center">
             <Logo 
-              className="h-16 w-16" 
+              className="h-10 w-auto" 
               onClick={() => navigate('/')} 
               style={{ cursor: 'pointer' }}
             />

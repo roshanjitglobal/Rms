@@ -85,7 +85,7 @@ const ManageHR = () => {
               </div>
               <button
                 className="mt-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium transition-colors w-full"
-                onClick={() => navigate('/view-hr')}
+                onClick={() => navigate('/company/hr-profiles', { state: { hr } })}
               >
                 View Profile
               </button>

@@ -41,11 +41,14 @@ const Header = ({ isDashboard }) => {
   }, [isMobileMenuOpen]);
 
   const solutionsRef = useRef(null);
+  const productsButtonRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (solutionsRef.current && !solutionsRef.current.contains(event.target)) {
-        // No setIsSolutionsOpen(false) to remove
+      if (solutionsRef.current && 
+          !solutionsRef.current.contains(event.target) && 
+          !productsButtonRef.current?.contains(event.target)) {
+        setIsProductsOpen(false);
       }
     };
 
@@ -121,6 +124,7 @@ const Header = ({ isDashboard }) => {
             {/* Products Dropdown */}
             <div className="relative" ref={solutionsRef}>
               <button
+                ref={productsButtonRef}
                 onClick={() => setIsProductsOpen(!isProductsOpen)}
                 className="flex items-center text-lg font-semibold text-slate-700 hover:text-[#181ed4] transition-colors duration-300 px-2 py-1"
                 aria-haspopup="true"

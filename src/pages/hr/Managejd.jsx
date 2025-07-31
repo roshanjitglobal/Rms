@@ -88,7 +88,7 @@ const ManageJD = ({ handleSearch, handleJDCreate, handleCVUpload }) => {
     }
   }, []);
 
-  // Component: SearchBar
+  // Component: SearchBar 5MB
   const SearchBar = useCallback(() => (
     <div className="flex items-center gap-4 w-full">
       <div className="relative flex-1">
@@ -179,7 +179,7 @@ const ManageJD = ({ handleSearch, handleJDCreate, handleCVUpload }) => {
               </svg>
             </button>
           </div>
-          
+     
           <div className="mb-6">
             <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="file-upload">
               {isCVUpload ? 'Upload CV Files (PDF, DOC, DOCX)' : 'Upload Job Description Files (PDF, DOC, DOCX)'}

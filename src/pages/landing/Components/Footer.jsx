@@ -6,9 +6,39 @@ import Logo from '../../../components/Logo';
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
+  // Check if we're in a dashboard route
+  const isDashboardRoute = window.location.pathname.startsWith('/hr/') || 
+                         window.location.pathname.startsWith('/company/') ||
+                         window.location.pathname.startsWith('/candidate/') ||
+                         window.location.pathname.startsWith('/super-admin/');
+
+  if (isDashboardRoute) {
+    return (
+      <footer className="bg-white border-t border-gray-200 py-4 px-6">
+        <div className="container mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <p className="text-gray-600 text-sm">
+              © {new Date().getFullYear()} RMS. All rights reserved.
+            </p>
+            <div className="flex space-x-4 mt-2 md:mt-0">
+              <a href="#" className="text-gray-500 hover:text-gray-700">
+                <span className="sr-only">Privacy Policy</span>
+                <span className="text-sm">Privacy</span>
+              </a>
+              <a href="#" className="text-gray-500 hover:text-gray-700">
+                <span className="sr-only">Terms</span>
+                <span className="text-sm">Terms</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    );
+  }
+
   return (
-    <footer className="bg-[#181ed4] text-white relative z-50">
-      <div className="container mx-auto px-2 py-2">
+    <footer className="bg-[#181ed4] text-white relative z-10 mt-auto">
+      <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
           <div className="lg:col-span-2">
             <div className="flex items-center space-x-2 mb-1">
@@ -99,7 +129,7 @@ const Footer = () => {
         
         <div className="mt-2 pt-2 border-t border-slate-700">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-slate-500 text-sm">
+            <p className="text-white-500 text-sm">
               &copy; {currentYear} JIT Global Info Systems Pvt Limited. All Rights Reserved.
             </p>
             <div className="flex space-x-6 mt-2 md:mt-0">

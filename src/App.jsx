@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store/store';
+import ScrollToTop from './components/ScrollToTop';
 
 // Landing Page Components
 import Header from "./pages/landing/Components/Hearder";
@@ -15,7 +16,6 @@ import Contact from "./pages/landing/pages/Contact";
 import NotFound from "./pages/landing/pages/NotFound";
 
 // Auth Components
-
 import ForgotPassword from "./pages/auth/Forgot";
 import Login from "./pages/auth/Login";
 import HRRegister from './pages/auth/HRRegister';
@@ -25,7 +25,6 @@ import CandidateRegister from './pages/auth/candidateRegister';
 import HRLayout from "./layouts/HRLayout";
 import CompanyAdminLayout from "./layouts/companyAdminLayout";
 import CandidateLayout from "./layouts/candidateLayout";
-
 
 // HR Pages
 import HRDashboard from './pages/hr/Dashboard';
@@ -47,11 +46,19 @@ import AppliedJdVsJd from "./pages/companyAdmin/HR/analytics/AppliedJdVsJd";
 import ViewHR from './pages/companyAdmin/HR/ViewHR';
 import Notifications from './pages/companyAdmin/HR/Notifications';
 import SettingsScreen from "./pages/common/Sttings";
+
+// Candidate Pages
 import Application from './pages/Candidate/Application';
-//Candidate
 import CandidateDashboard from './pages/Candidate/Dashboard';
 import CandidateProfile from './pages/Candidate/Profile';
 
+// Super Admin Components
+import SuperAdminLayout from "./layouts/SuperAdminLayout";
+import SuperAdminHome from "./pages/auth/superAdmin/dashboard";
+import SubSuperAdminManager from "./pages/auth/superAdmin/SubAdmin/subadminList";
+import CompanyManager from "./pages/auth/superAdmin/company/companyList";
+import FeedbackCenter from "./pages/auth/superAdmin/feedbackCenter";
+import SupportCenter from "./pages/common/HelpSupport";
 
 const AppContent = () => {
   const location = useLocation();
@@ -62,6 +69,15 @@ const AppContent = () => {
     return () => clearTimeout(timer);
   }, [location]);
 
+  const isDashboardRoute = () => {
+    return (
+      location.pathname.startsWith('/hr/') ||
+      location.pathname.startsWith('/company/') ||
+      location.pathname.startsWith('/candidate/') ||
+      location.pathname.startsWith('/super-admin/')
+    );
+  };
+
   return (
     <>
       {isLoading ? (
@@ -69,9 +85,7 @@ const AppContent = () => {
       ) : (
         <div className="min-h-screen flex flex-col">
           {/* Only show header for non-dashboard routes */}
-          {!location.pathname.startsWith('/hr/') && !location.pathname.startsWith('/company/') && !location.pathname.startsWith('/candidate/') && (
-            <Header isDashboard={false} />
-          )}
+          {!isDashboardRoute() && <Header isDashboard={false} />}
           
           <main className="flex-1">
             <Routes>
@@ -86,7 +100,6 @@ const AppContent = () => {
               <Route path="/hr-register" element={<HRRegister />} />
               <Route path="/candidate-register" element={<CandidateRegister />} />
               
-              
               {/* HR Routes */}
               <Route path="/hr" element={<HRLayout />}>
                 <Route index element={<Navigate to="dashboard" replace />} />
@@ -99,7 +112,6 @@ const AppContent = () => {
                 <Route path="interview/:id" element={<InterviewDetail />} />
                 <Route path="settings" element={<SettingsScreen />} />
                 <Route path="notifications" element={<Notifications />} />
-                {/* Redirect old HR routes */}
                 <Route path="*" element={<Navigate to="/hr/dashboard" replace />} />
               </Route>
               
@@ -117,7 +129,7 @@ const AppContent = () => {
                 <Route path="settings" element={<SettingsScreen />} />
                 <Route path="view-hr" element={<ViewHR />} />
                 <Route path="notifications" element={<Notifications />} />
-                {/* Redirect old company admin routes */}
+                <Route path="hr-profiles" element={<CompanyHRProfile />} />
                 <Route path="*" element={<Navigate to="/company/dashboard" replace />} />
               </Route>
               
@@ -129,8 +141,19 @@ const AppContent = () => {
                 <Route path="applications" element={<Application />} />
                 <Route path="settings" element={<SettingsScreen />} />
                 <Route path="notifications" element={<Notifications />} />
-                {/* Redirect old candidate routes */}
                 <Route path="*" element={<Navigate to="/candidate/dashboard" replace />} />
+              </Route>
+
+              {/* Super Admin Routes */}
+              <Route path="/super-admin" element={<SuperAdminLayout />}>
+                <Route index element={<Navigate to="dashboard" replace />} />
+                <Route path="dashboard" element={<SuperAdminHome />} />
+                <Route path="sub-admins" element={<SubSuperAdminManager />} />
+                <Route path="companies" element={<CompanyManager />} />
+                <Route path="feedback" element={<FeedbackCenter />} />
+                <Route path="support" element={<SupportCenter />} />
+                <Route path="settings" element={<SettingsScreen />} />
+                <Route path="*" element={<Navigate to="/super-admin/dashboard" replace />} />
               </Route>
               
               {/* Legacy Redirects */}
@@ -147,6 +170,8 @@ const AppContent = () => {
               <Route path="/settings" element={<Navigate to="/company/settings" replace />} />
               <Route path="/view-hr" element={<Navigate to="/company/view-hr" replace />} />
               <Route path="/notifications" element={<Navigate to="/company/notifications" replace />} />
+              <Route path="/superadmin" element={<Navigate to="/super-admin/dashboard" replace />} />
+              <Route path="/admin" element={<Navigate to="/super-admin/dashboard" replace />} />
               
               {/* 404 - Keep this last */}
               <Route path="*" element={<NotFound />} />
@@ -154,16 +179,12 @@ const AppContent = () => {
           </main>
           
           {/* Only show footer for non-dashboard routes */}
-          {!location.pathname.startsWith('/hr/') && !location.pathname.startsWith('/company/') && !location.pathname.startsWith('/candidate/') && (
-            <Footer />
-          )}
+          {!isDashboardRoute() && <Footer />}
         </div>
       )}
     </>
   );
 };
-
-import ScrollToTop from './components/ScrollToTop';
 
 const App = () => {
   return (

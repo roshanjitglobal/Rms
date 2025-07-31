@@ -21,7 +21,6 @@ const SideBar = ({ isOpen = true, onClose }) => {
     { id: 1, path: '/hr/dashboard', label: 'Dashboard', icon: <LayoutDashboard size={20} /> },
     { id: 2, path: '/hr/manage-hr', label: 'Manage HR', icon: <Users size={20} /> },
     // { id: 3, path: '/hr/managejd', label: 'Manage JD', icon: <FileText size={20} /> },
-    { id: 4, path: '/hr/notifications', label: 'Notifications', icon: <Bell size={20} /> },
     { id: 5, path: '/hr/profile', label: 'Profile', icon: <User size={20} /> },
   ];
 

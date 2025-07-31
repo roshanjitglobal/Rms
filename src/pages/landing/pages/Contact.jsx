@@ -1,7 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Clock, Send, CheckCircle, ArrowRight, Building } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+
+// Add styles for the highlight effect
+const highlightStyle = document.createElement('style');
+highlightStyle.textContent = `
+  @keyframes highlight {
+    0% { box-shadow: 0 0 0 0 rgba(24, 30, 212, 0.5); }
+    50% { box-shadow: 0 0 0 10px rgba(24, 30, 212, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(24, 30, 212, 0); }
+  }
+  .highlight-form {
+    animation: highlight 1.5s ease-out;
+  }
+`;
+document.head.appendChild(highlightStyle);
 
 const Contact = () => {
   const navigate = useNavigate();
@@ -101,10 +115,32 @@ const Contact = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
             <button
-              onClick={() => navigate('/candidate-register')}
+              onClick={() => {
+                const contactForm = document.getElementById('contact-form');
+                if (contactForm) {
+                  // Calculate the header height dynamically
+                  const header = document.querySelector('header');
+                  const headerHeight = header ? header.offsetHeight : 80;
+                  
+                  // Get the form's position relative to the viewport
+                  const formRect = contactForm.getBoundingClientRect();
+                  
+                  // Calculate the scroll position, accounting for header height and some padding
+                  const y = window.scrollY + formRect.top - headerHeight - 20;
+                  
+                  // Scroll to the calculated position with smooth behavior
+                  window.scrollTo({ top: y, behavior: 'smooth' });
+                  
+                  // Add a class to highlight the form after scroll
+                  contactForm.classList.add('highlight-form');
+                  setTimeout(() => {
+                    contactForm.classList.remove('highlight-form');
+                  }, 2000);
+                }
+              }}
               className="inline-flex items-center gap-2 bg-white text-[#181ed4] font-bold py-3 px-8 rounded-xl text-lg shadow-lg hover:bg-[#181ed4] hover:text-white transition-all duration-300"
             >
-              Get Started
+              Connect Now
               <ArrowRight className="ml-2 h-5 w-5" />
             </button>
           </div>
@@ -150,10 +186,18 @@ const Contact = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {/* Contact Form */}
             <motion.div
+              id="contact-form"
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
-              className="bg-white rounded-2xl p-8 shadow-2xl flex flex-col justify-center"
+              className="bg-white rounded-2xl p-8 shadow-2xl flex flex-col justify-center transition-all duration-300"
+              style={{
+                boxShadow: '0 0 0 0 rgba(0, 0, 0, 0)'
+              }}
+              // Add smooth transition for the highlight effect
+              onAnimationEnd={(e) => {
+                e.currentTarget.style.boxShadow = '0 0 0 0 rgba(0, 0, 0, 0)';
+              }}
             >
               <h2 className="text-3xl font-bold text-gray-900 mb-2">Send us a Message</h2>
               <form onSubmit={handleSubmit} className="space-y-4">

@@ -1,180 +1,333 @@
-import React, { useState, useRef } from 'react';
-import { Building2, Camera } from 'lucide-react';
+import React, { useState } from 'react';
+import { User, Mail, Phone, MapPin, Building, Calendar, Camera, Save, Edit3, X, RotateCcw } from 'lucide-react';
 
-const HRProfile = ({ isSidebarOpen, toggleSidebar }) => {
-  const [editMode, setEditMode] = useState(false);
-  const [profileImg, setProfileImg] = useState(null);
-  const formRef = useRef(null);
-  const socialLinks = [
-    {
-      platform: 'LinkedIn',
-      color: 'bg-blue-700',
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-          <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.268c-.966 0-1.75-.784-1.75-1.75s.784-1.75 1.75-1.75 1.75.784 1.75 1.75-.784 1.75-1.75 1.75zm15.5 11.268h-3v-5.604c0-1.337-.025-3.063-1.868-3.063-1.868 0-2.154 1.459-2.154 2.967v5.7h-3v-10h2.881v1.367h.041c.401-.761 1.379-1.563 2.841-1.563 3.039 0 3.6 2.001 3.6 4.601v5.595z" />
-        </svg>
-      )
-    }
-  ];
+export default function HRProfileEditor() {
+  const [isEditing, setIsEditing] = useState(false);
+  const [profileData, setProfileData] = useState({
+    firstName: 'Sarah',
+    lastName: 'Johnson',
+    email: 'sarah.johnson@company.com',
+    phone: '+1 (555) 123-4567',
+    department: 'Human Resources',
+    position: 'Senior HR Manager',
+    location: 'New York, NY',
+    joinDate: '2020-03-15',
+    employeeId: 'HR001',
+    bio: 'Experienced HR professional with 8+ years in talent acquisition, employee relations, and organizational development.',
+    profileImage: null
+  });
+  
+  const [originalData, setOriginalData] = useState(profileData);
 
-  // Helper to enable/disable all inputs
-  const setInputsDisabled = (disabled) => {
-    if (formRef.current) {
-      const inputs = formRef.current.querySelectorAll('input');
-      inputs.forEach((input) => (input.disabled = disabled));
+  const handleInputChange = (field, value) => {
+    setProfileData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setProfileData(prev => ({
+          ...prev,
+          profileImage: e.target.result
+        }));
+      };
+      reader.readAsDataURL(file);
     }
   };
 
-  React.useEffect(() => {
-    setInputsDisabled(!editMode);
-  }, [editMode]);
+  const handleSave = () => {
+    setIsEditing(false);
+    setOriginalData(profileData);
+    // Here you would typically save to your backend
+    console.log('Profile saved:', profileData);
+  };
+
+  const handleCancel = () => {
+    setProfileData(originalData);
+    setIsEditing(false);
+  };
+
+  const handleUndo = () => {
+    setProfileData(originalData);
+  };
+
+  const startEditing = () => {
+    setOriginalData(profileData);
+    setIsEditing(true);
+  };
 
   return (
-    <div className="flex-1 p-2 sm:p-4" ref={formRef}>
-      {/* Mobile sidebar toggle button */}
-      <button 
-        onClick={toggleSidebar}
-        className="lg:hidden fixed top-4 left-4 z-40 p-2 rounded-md bg-indigo-600 text-white shadow-lg"
-        aria-label="Toggle sidebar"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
-      <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-        <div>
-          <h2 className="text-2xl sm:text-3xl font-bold mb-2">HR Profile</h2>
-          <p className="text-gray-500 text-sm sm:text-base">View and manage your HR information.</p>
-        </div>
-        <div className="flex gap-2">
-          {editMode && (
-            <button
-              className="px-4 py-2 rounded-lg text-white font-medium bg-red-600 hover:bg-red-700 transition-colors"
-              onClick={() => setEditMode(false)}
-            >
-              Discard
-            </button>
-          )}
-          <button
-            className={`px-4 py-2 rounded-lg text-white font-medium transition-colors ${editMode ? 'bg-green-600 hover:bg-green-700' : 'bg-indigo-600 hover:bg-indigo-700'}`}
-            onClick={() => setEditMode((prev) => !prev)}
-          >
-            {editMode ? 'Save' : 'Edit'}
-          </button>
-        </div>
-      </div>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-        <div className="lg:col-span-1">
-          <div className="bg-gray-50 rounded-xl p-4 sm:p-6 text-center shadow">
-            <div className="relative mb-4 flex flex-col items-center justify-center">
-              <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full mx-auto bg-indigo-100 border-4 border-[#4f46e5] flex items-center justify-center overflow-hidden relative">
-                {profileImg ? (
-                  <img
-                    src={profileImg}
-                    alt="Profile"
-                    className="object-cover w-full h-full"
-                  />
-                ) : (
-                  <Building2 className="w-12 h-12 sm:w-16 sm:h-16 text-[#4f46e5]" />
-                )}
-                {editMode && (
-                  <label
-                    className="absolute bottom-1.5 right-1.5 bg-[rgba(0,0,0,0.44)] hover:bg-[#6366f1] transition-colors rounded-full p-1.5 flex items-center justify-center cursor-pointer z-20 border-2 border-white shadow"
-                    style={{ boxShadow: '0 2px 8px 0 rgba(0,0,0,0.10)' }}
-                    title="Change profile photo"
-                  >
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      onChange={e => {
-                        const file = e.target.files[0];
-                        if (file) {
-                          const reader = new FileReader();
-                          reader.onload = (ev) => setProfileImg(ev.target.result);
-                          reader.readAsDataURL(file);
-                        }
-                      }}
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 p-6">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 mb-6 overflow-hidden">
+          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 h-32 relative">
+            <div className="absolute inset-0 bg-black bg-opacity-10"></div>
+          </div>
+          
+          <div className="px-8 pb-8 -mt-16 relative">
+            {/* Profile Image Section */}
+            <div className="flex items-end space-x-6">
+              <div className="relative">
+                <div className="w-32 h-32 rounded-full border-4 border-white shadow-lg overflow-hidden bg-gray-100">
+                  {profileData.profileImage ? (
+                    <img 
+                      src={profileData.profileImage} 
+                      alt="Profile" 
+                      className="w-full h-full object-cover"
                     />
-                    <Camera className="w-4 h-4 text-white" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-400 to-indigo-500">
+                      <User className="w-16 h-16 text-white" />
+                    </div>
+                  )}
+                </div>
+                
+                {isEditing && (
+                  <label className="absolute bottom-2 right-2 bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full cursor-pointer shadow-lg transition-colors">
+                    <Camera className="w-4 h-4" />
+                    <input 
+                      type="file" 
+                      accept="image/*" 
+                      className="hidden" 
+                      onChange={handleImageUpload}
+                    />
                   </label>
                 )}
               </div>
-            </div>
-            <input
-              type="text"
-              className="text-xl sm:text-2xl font-bold mb-1 text-center w-full border border-gray-300 rounded-lg px-2 py-1 text-[#4f46e5] bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-              defaultValue="John Doe"
-              disabled={!editMode}
-            />
-            <input
-              type="text"
-              className="text-indigo-400 text-xs sm:text-sm mb-4 text-center w-full border border-gray-300 rounded-lg px-2 py-1 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-              defaultValue="HR Manager"
-              disabled={!editMode}
-            />
-            <div className="space-y-4 text-left">
-              <div>
-                <h4 className="text-xs sm:text-sm font-semibold text-gray-500 mb-2">Social Media</h4>
-                <div className="flex space-x-3">
-                  {socialLinks.map((social, index) => (
-                    <button
-                      key={index}
-                      className={`w-8 h-8 sm:w-10 sm:h-10 ${social.color} rounded-lg flex items-center justify-center hover:opacity-80 transition-opacity`}
-                      aria-label={social.platform}
-                    >
-                      <span className="text-white">{social.icon}</span>
-                    </button>
-                  ))}
+              
+              <div className="flex-1 pt-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                      {profileData.firstName} {profileData.lastName}
+                    </h1>
+                    <p className="text-lg text-gray-600 mb-1">{profileData.position}</p>
+                    <p className="text-blue-600 font-medium">{profileData.department}</p>
+                  </div>
+                  
+                  <div className="flex items-center">
+                    {!isEditing ? (
+                      <button
+                        onClick={startEditing}
+                        className="group bg-white hover:bg-blue-50 text-blue-600 border border-blue-200 hover:border-blue-300 px-5 py-2.5 rounded-lg font-medium transition-all duration-200 flex items-center space-x-2 shadow-sm hover:shadow-md"
+                      >
+                        <Edit3 className="w-4 h-4" />
+                        <span>Edit Profile</span>
+                      </button>
+                    ) : (
+                      <div className="flex items-center space-x-2">
+                        <button
+                          onClick={handleUndo}
+                          className="group bg-gray-50 hover:bg-gray-100 text-gray-600 border border-gray-200 hover:border-gray-300 px-3 py-2.5 rounded-lg font-medium transition-all duration-200 flex items-center space-x-1.5 shadow-sm hover:shadow-md"
+                          title="Undo Changes"
+                        >
+                          <RotateCcw className="w-4 h-4" />
+                          <span className="text-sm">Undo</span>
+                        </button>
+                        
+                        <button
+                          onClick={handleCancel}
+                          className="group bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 hover:border-red-300 px-3 py-2.5 rounded-lg font-medium transition-all duration-200 flex items-center space-x-1.5 shadow-sm hover:shadow-md"
+                          title="Cancel & Discard Changes"
+                        >
+                          <X className="w-4 h-4" />
+                          <span className="text-sm">Cancel</span>
+                        </button>
+                        
+                        <button
+                          onClick={handleSave}
+                          className="group bg-green-600 hover:bg-green-700 text-white border border-green-600 hover:border-green-700 px-4 py-2.5 rounded-lg font-medium transition-all duration-200 flex items-center space-x-2 shadow-sm hover:shadow-md"
+                        >
+                          <Save className="w-4 h-4" />
+                          <span>Save</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="lg:col-span-2">
-          <div className="bg-gray-50 rounded-xl p-4 sm:p-6 shadow">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 gap-2">
-              <h3 className="text-lg sm:text-xl font-bold">Personal Information</h3>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-              <div className="space-y-4">
+
+        {/* Profile Details */}
+        <div className="grid md:grid-cols-2 gap-6">
+          {/* Personal Information */}
+          <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+              <User className="w-6 h-6 mr-3 text-blue-600" />
+              Personal Information
+            </h2>
+            
+            <div className="space-y-6">
+              <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <h4 className="text-xs sm:text-sm font-semibold text-gray-500 mb-1">Full Name</h4>
-                  <input type="text" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-[#4f46e5] text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-400" defaultValue="John Doe" disabled />
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">First Name</label>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      value={profileData.firstName}
+                      onChange={(e) => handleInputChange('firstName', e.target.value)}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    />
+                  ) : (
+                    <p className="px-4 py-3 bg-gray-50 rounded-xl text-gray-900 font-medium">{profileData.firstName}</p>
+                  )}
                 </div>
+                
                 <div>
-                  <h4 className="text-xs sm:text-sm font-semibold text-gray-500 mb-1">Designation</h4>
-                  <input type="text" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-[#4f46e5] text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-400" defaultValue="HR Manager" disabled />
-                </div>
-                <div>
-                  <h4 className="text-xs sm:text-sm font-semibold text-gray-500 mb-1">Department</h4>
-                  <input type="text" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-[#4f46e5] text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-400" defaultValue="Human Resources" disabled />
-                </div>
-                <div>
-                  <h4 className="text-xs sm:text-sm font-semibold text-gray-500 mb-1">Employee ID</h4>
-                  <input type="text" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-[#4f46e5] text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-400" defaultValue="HR12345" disabled />
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Last Name</label>
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      value={profileData.lastName}
+                      onChange={(e) => handleInputChange('lastName', e.target.value)}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    />
+                  ) : (
+                    <p className="px-4 py-3 bg-gray-50 rounded-xl text-gray-900 font-medium">{profileData.lastName}</p>
+                  )}
                 </div>
               </div>
-              <div className="space-y-4">
-                <div>
-                  <h4 className="text-xs sm:text-sm font-semibold text-gray-500 mb-1">Email</h4>
-                  <input type="email" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-[#4f46e5] text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-400" defaultValue="john.doe@company.com" disabled />
-                </div>
-                <div>
-                  <h4 className="text-xs sm:text-sm font-semibold text-gray-500 mb-1">Phone Number</h4>
-                  <input type="text" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-[#4f46e5] text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-400" defaultValue="+91 98765 12345" disabled />
-                </div>
-                <div>
-                  <h4 className="text-xs sm:text-sm font-semibold text-gray-500 mb-1">Location</h4>
-                  <input type="text" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-[#4f46e5] text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-indigo-400" defaultValue="Bangalore, India" disabled />
-                </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                  <Mail className="w-4 h-4 mr-2 text-blue-600" />
+                  Email Address
+                </label>
+                {isEditing ? (
+                  <input
+                    type="email"
+                    value={profileData.email}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  />
+                ) : (
+                  <p className="px-4 py-3 bg-gray-50 rounded-xl text-gray-900 font-medium">{profileData.email}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                  <Phone className="w-4 h-4 mr-2 text-blue-600" />
+                  Phone Number
+                </label>
+                {isEditing ? (
+                  <input
+                    type="tel"
+                    value={profileData.phone}
+                    onChange={(e) => handleInputChange('phone', e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  />
+                ) : (
+                  <p className="px-4 py-3 bg-gray-50 rounded-xl text-gray-900 font-medium">{profileData.phone}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                  <MapPin className="w-4 h-4 mr-2 text-blue-600" />
+                  Location
+                </label>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={profileData.location}
+                    onChange={(e) => handleInputChange('location', e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  />
+                ) : (
+                  <p className="px-4 py-3 bg-gray-50 rounded-xl text-gray-900 font-medium">{profileData.location}</p>
+                )}
               </div>
             </div>
           </div>
+
+          {/* Professional Information */}
+          <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+              <Building className="w-6 h-6 mr-3 text-blue-600" />
+              Professional Details
+            </h2>
+            
+            <div className="space-y-6">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Employee ID</label>
+                <p className="px-4 py-3 bg-gray-50 rounded-xl text-gray-900 font-medium">{profileData.employeeId}</p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Position</label>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={profileData.position}
+                    onChange={(e) => handleInputChange('position', e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  />
+                ) : (
+                  <p className="px-4 py-3 bg-gray-50 rounded-xl text-gray-900 font-medium">{profileData.position}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Department</label>
+                {isEditing ? (
+                  <select
+                    value={profileData.department}
+                    onChange={(e) => handleInputChange('department', e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  >
+                    <option value="Human Resources">Human Resources</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Operations">Operations</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="IT">Information Technology</option>
+                  </select>
+                ) : (
+                  <p className="px-4 py-3 bg-gray-50 rounded-xl text-gray-900 font-medium">{profileData.department}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                  <Calendar className="w-4 h-4 mr-2 text-blue-600" />
+                  Join Date
+                </label>
+                <p className="px-4 py-3 bg-gray-50 rounded-xl text-gray-900 font-medium">
+                  {new Date(profileData.joinDate).toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                  })}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bio Section */}
+        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8 mt-6">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Professional Bio</h2>
+          {isEditing ? (
+            <textarea
+              value={profileData.bio}
+              onChange={(e) => handleInputChange('bio', e.target.value)}
+              rows={4}
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
+              placeholder="Tell us about your professional background and expertise..."
+            />
+          ) : (
+            <p className="px-4 py-3 bg-gray-50 rounded-xl text-gray-700 leading-relaxed">{profileData.bio}</p>
+          )}
         </div>
       </div>
     </div>
   );
 }
-
-export default HRProfile; 
