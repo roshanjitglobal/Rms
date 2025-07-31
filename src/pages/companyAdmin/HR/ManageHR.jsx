@@ -64,6 +64,16 @@ const ManageHR = () => {
 
   return (
     <div className="flex-1 p-2 sm:p-4">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-xl font-semibold text-gray-900">Manage HR</h2>
+        <button
+          onClick={() => alert('Navigate to Create HR form')}
+          className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium transition-colors"
+        >
+          <Plus className="w-4 h-4" />
+          Create HR
+        </button>
+      </div>
       <main className="bg-white rounded-xl shadow-sm p-6 mt-6 flex-1">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {hrList.map((hr) => (

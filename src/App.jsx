@@ -125,6 +125,7 @@ const AppContent = () => {
                 <Route path="analytics/applied-jd-vs-jd" element={<AppliedJdVsJd />} />
                 <Route path="profile" element={<Profile />} />
                 <Route path="hr-profile" element={<CompanyHRProfile />} />
+                <Route path="hr-profile/new" element={<CompanyHRProfile new />} />
                 <Route path="manage-hr" element={<ManageHR />} />
                 <Route path="settings" element={<SettingsScreen />} />
                 <Route path="view-hr" element={<ViewHR />} />

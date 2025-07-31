@@ -13,8 +13,8 @@ function BreakdownBar({ label, percent, color }) {
       </div>
       {/* <div className="w-full bg-gray-200 rounded-full h-2.5">
         <div
-          className={`${color} h-2.5 rounded-full transition-all duration-300`}
-          style={{ width: `${percent}%` }}
+          className={${color} h-2.5 rounded-full transition-all duration-300}
+          style={{ width: ${percent}% }}
         ></div>
       </div> */}
     </div>
@@ -49,7 +49,7 @@ const InterviewDetails = ({ candidate, onClose }) => {
               <h2 className="text-xl font-bold text-blue-700">Interview Score</h2>
               <button
                 onClick={onClose}
-                className="p-1.5 rounded-full hover:bg-gray-100 focus:outline-none"
+                className="p-1.ś5 rounded-full hover:bg-gray-100 focus:outline-none"
                 aria-label="Close"
               >
                 <svg
@@ -143,6 +143,26 @@ const CandidateRow = ({
       {name}
     </td>
     <td className="py-2 px-4 text-gray-700">{role}</td>
+    <td className="py-2 px-4">
+      <div className="flex justify-center">
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onInterviewClick(index);
+          }}
+          className={`px-3 py-1 rounded-full font-semibold text-sm outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 min-w-[60px] text-center
+            ${
+              interviewScore >= 80
+                ? "bg-green-100 text-green-800 hover:bg-green-200"
+                : interviewScore >= 50
+                ? "bg-yellow-100 text-yellow-800 hover:bg-yellow-200"
+                : "bg-red-100 text-red-800 hover:bg-red-200"
+            }`}
+        >
+          {interviewScore}%
+        </button>
+      </div>
+    </td>
     <td className="py-2 px-4 text-blue-800">{employmentType}</td>
     <td className="py-2 px-4">{workType}</td>
     <td className="py-2 px-4">{appliedDate}</td>
@@ -183,27 +203,6 @@ const CandidateRow = ({
       </span>
     </td>
     <td className="py-2 px-4 text-right whitespace-nowrap">{experience} yrs</td>
-    {/* <td className="py-2 px-4 text-right">{score}</td> */}
-    <td className="py-2 px-4">
-      <div className="flex justify-center">
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onInterviewClick(index);
-          }}
-          className={`px-3 py-1 rounded-full font-semibold text-sm outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 min-w-[60px] text-center
-            ${
-              interviewScore >= 80
-                ? "bg-green-100 text-green-800 hover:bg-green-200"
-                : interviewScore >= 50
-                ? "bg-yellow-100 text-yellow-800 hover:bg-yellow-200"
-                : "bg-red-100 text-red-800 hover:bg-red-200"
-            }`}
-        >
-          {interviewScore}
-        </button>
-      </div>
-    </td>
   </tr>
 );
 
@@ -216,9 +215,8 @@ const InterviewScore = () => {
       employmentType: "Full-time",
       workType: "Hybrid",
       appliedDate: "22-07-2025",
-      attachments: ["Resume", ],
+      attachments: ["Resume"],
       status: "Interview",
-      // score: 70,
       interviewScore: 67,
       department: "Legal",
       position: "Advisor",
@@ -233,7 +231,6 @@ const InterviewScore = () => {
       appliedDate: "22-07-2025",
       attachments: ["Resume"],
       status: "In-Review",
-      // score: 30,
       interviewScore: 25,
       department: "Engineering",
       position: "Developer",
@@ -248,7 +245,6 @@ const InterviewScore = () => {
       appliedDate: "22-07-2025",
       attachments: ["Resume"],
       status: "Hired",
-      // score: 95,
       interviewScore: 90,
       department: "Finance",
       position: "Analyst",
@@ -261,9 +257,8 @@ const InterviewScore = () => {
       employmentType: "Full-time",
       workType: "On-site",
       appliedDate: "22-07-2025",
-      attachments: ["Resume"  ],
+      attachments: ["Resume"],
       status: "In-Review",
-      //score: 80,
       interviewScore: 75,
       department: "Operations",
       position: "Manager",
@@ -278,7 +273,6 @@ const InterviewScore = () => {
       appliedDate: "22-07-2025",
       attachments: ["Resume"],
       status: "Hired",
-      //score: 100,
       interviewScore: 98,
       department: "Human Resources",
       position: "Manager",
@@ -293,7 +287,6 @@ const InterviewScore = () => {
       appliedDate: "22-07-2025",
       attachments: ["Resume"],
       status: "Interview",
-      //score: 50,
       interviewScore: 45,
       department: "IT",
       position: "Engineer",
@@ -308,7 +301,6 @@ const InterviewScore = () => {
       appliedDate: "22-07-2025",
       attachments: ["Resume"],
       status: "Rejected",
-      //score: 10,
       interviewScore: 5,
       department: "Customer Service",
       position: "Specialist",
@@ -323,7 +315,6 @@ const InterviewScore = () => {
       appliedDate: "22-07-2025",
       attachments: ["Resume"],
       status: "Interview",
-      //score: 85,
       interviewScore: 80,
       department: "R&D",
       position: "Scientist",
@@ -338,7 +329,6 @@ const InterviewScore = () => {
       appliedDate: "22-07-2025",
       attachments: ["Resume"],
       status: "Rejected",
-      //score: 65,
       interviewScore: 60,
       department: "Marketing",
       position: "Coordinator",
@@ -423,9 +413,9 @@ const InterviewScore = () => {
             Candidates
           </h1>
           <div className="flex flex-wrap gap-2">
-            <button className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 font-semibold">
+            {/* <button className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 font-semibold">
               Add
-            </button>
+            </button> */}
             <select className="border border-blue-200 px-3 py-2 rounded-full text-blue-600 shadow-sm focus:ring focus:ring-blue-300/30">
               <option>Latest</option>
               <option>Oldest</option>
@@ -493,7 +483,7 @@ const InterviewScore = () => {
               <option value="">All Exp</option>
               {[2, 3, 4, 5, 6, 7, 8, 10].map((y) => (
                 <option key={y} value={y}>
-                  {y}
+                {y}
                 </option>
               ))}
             </select>
@@ -523,37 +513,19 @@ const InterviewScore = () => {
             Clear Filters
           </button>
         </div>
-        {/* <div className="flex flex-wrap gap-2 mb-4">
-          <button className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full font-medium">
-            All
-          </button>
-          <button className="bg-purple-50 text-purple-800 px-3 py-1 rounded-full font-medium">
-            In-Review
-          </button>
-          <button className="bg-green-50 text-green-800 px-3 py-1 rounded-full font-medium">
-            Interview
-          </button>
-          <button className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-medium">
-            Hired
-          </button>
-          <button className="bg-red-50 text-red-700 px-3 py-1 rounded-full font-medium">
-            Rejected
-          </button>
-        </div> */}
         <div className="overflow-x-auto rounded-lg border border-blue-100 bg-white shadow">
           <table className="min-w-full text-sm">
             <thead className={tableHeadClass}>
               <tr>
                 <th className="py-3 px-4 text-left">Name</th>
                 <th className="py-3 px-4 text-left">Applied Role</th>
+                <th className="py-3 px-4 text-center w-32">Interview Score</th>
                 <th className="py-3 px-4 text-left">Employment Type</th>
                 <th className="py-3 px-4 text-left">Work Type</th>
                 <th className="py-3 px-4 text-left">Applied Date</th>
                 <th className="py-3 px-4 text-left">Attachment</th>
                 <th className="py-3 px-4 text-left">Status</th>
                 <th className="py-3 px-4 text-right">Experience</th>
-                {/* <th className="py-3 px-4 text-right">Score</th> */}
-                <th className="py-3 px-4 text-center w-32">Interview Score</th>
               </tr>
             </thead>
             <tbody>
