@@ -118,11 +118,14 @@ const ScheduleModal = ({ selectedIds, onClose }) => {
 };
 
 const mockCandidates = [
-  { id: 1, name: 'Priya P', status: 'New', screeningScore: null, interviewScore: null, appliedDate: '2024-01-15', position: 'Frontend Developer' },
-  { id: 2, name: 'Karthik K', status: 'Waiting to Schedule L1', screeningScore: 84, interviewScore: null, appliedDate: '2024-01-12', position: 'Backend Developer' },
-  { id: 3, name: 'Aisha R', status: 'Completed L1', screeningScore: 76, interviewScore: 88, appliedDate: '2024-01-10', position: 'Full Stack Developer' },
-  { id: 4, name: 'Rajesh M', status: 'Under Validation', screeningScore: null, interviewScore: null, appliedDate: '2024-01-14', position: 'DevOps Engineer' },
-  { id: 5, name: 'Sneha T', status: 'Scheduled L1', screeningScore: 92, interviewScore: null, appliedDate: '2024-01-08', position: 'UI/UX Designer' },
+  { id: 1, name: 'Priya P', status: 'New', screeningScore: null, interviewScore: null, appliedDate: '2024-01-15', position: 'Frontend Developer', jdApplied: 3, interviewDate: null, attendanceLog: null },
+  { id: 2, name: 'Karthik K', status: 'Waiting to Schedule L1', screeningScore: 84, interviewScore: null, appliedDate: '2024-01-12', position: 'Backend Developer', jdApplied: 5, interviewDate: null, attendanceLog: null },
+  { id: 3, name: 'Aisha R', status: 'Completed L1', screeningScore: 76, interviewScore: 88, appliedDate: '2024-01-10', position: 'Full Stack Developer', jdApplied: 2, interviewDate: '2024-01-20', attendanceLog: 'Attended' },
+  { id: 4, name: 'Rajesh M', status: 'Under Validation', screeningScore: null, interviewScore: null, appliedDate: '2024-01-14', position: 'DevOps Engineer', jdApplied: 1, interviewDate: null, attendanceLog: null },
+  { id: 5, name: 'Sneha T', status: 'Scheduled L1', screeningScore: 92, interviewScore: null, appliedDate: '2024-01-08', position: 'UI/UX Designer', jdApplied: 4, interviewDate: '2024-01-25', attendanceLog: 'Scheduled' },
+  { id: 6, name: 'Vikram S', status: 'Completed L1', screeningScore: 88, interviewScore: 92, appliedDate: '2024-01-05', position: 'Data Scientist', jdApplied: 3, interviewDate: '2024-01-18', attendanceLog: 'Attended' },
+  { id: 7, name: 'Meera K', status: 'Scheduled L1', screeningScore: 79, interviewScore: null, appliedDate: '2024-01-13', position: 'Product Manager', jdApplied: 2, interviewDate: '2024-01-22', attendanceLog: 'No Show' },
+  { id: 8, name: 'Arjun P', status: 'Completed L1', screeningScore: 95, interviewScore: 89, appliedDate: '2024-01-07', position: 'Backend Developer', jdApplied: 4, interviewDate: '2024-01-16', attendanceLog: 'Attended' },
 ];
 
 const statusConfig = {
@@ -306,11 +309,13 @@ const CandidateManagement = () => {
                 className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
               >
                 <option value="all">All Positions</option>
-                <option value="Frontend Developer">Frontend Developer</option>
-                <option value="Backend Developer">Backend Developer</option>
-                <option value="Full Stack Developer">Full Stack Developer</option>
-                <option value="DevOps Engineer">DevOps Engineer</option>
-                <option value="UI/UX Designer">UI/UX Designer</option>
+                                 <option value="Frontend Developer">Frontend Developer</option>
+                 <option value="Backend Developer">Backend Developer</option>
+                 <option value="Full Stack Developer">Full Stack Developer</option>
+                 <option value="DevOps Engineer">DevOps Engineer</option>
+                 <option value="UI/UX Designer">UI/UX Designer</option>
+                 <option value="Data Scientist">Data Scientist</option>
+                 <option value="Product Manager">Product Manager</option>
               </select>
             </div>
 
@@ -450,18 +455,27 @@ const CandidateManagement = () => {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Status
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Screening Score
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Interview Score
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Applied Date
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  View Profile
-                </th>
+                                 <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                   Screening Score
+                 </th>
+                 <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                   Interview Score
+                 </th>
+                 <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                   Applied Date
+                 </th>
+                 <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                   No. of JD Applied
+                 </th>
+                 <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                   Interview Date
+                 </th>
+                 <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                   Logs
+                 </th>
+                 <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                   View Profile
+                 </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -495,38 +509,64 @@ const CandidateManagement = () => {
                         </span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {['Waiting to Schedule L1', 'Scheduled L1', 'Completed L1'].includes(candidate.status) && candidate.screeningScore
-                        ? (
-                          <div className="flex items-center">
-                            <span className="font-medium">{candidate.screeningScore}</span>
-                            <span className="text-gray-400 ml-1">/100</span>
-                          </div>
-                        )
-                        : <span className="text-gray-400">—</span>}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {candidate.status === 'Completed L1' && candidate.interviewScore ? (
-                        <div className="flex items-center">
-                          <span className="font-medium">{candidate.interviewScore}</span>
-                          <span className="text-gray-400 ml-1">/100</span>
-                        </div>
-                      ) : <span className="text-gray-400">—</span>}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {new Date(candidate.appliedDate).toLocaleDateString()}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <div className="flex items-center space-x-2">
-                        <button className="text-indigo-600 hover:text-indigo-900 flex items-center space-x-1 transition-colors">
-                          <Eye size={16} />
-                          <span>View</span>
-                        </button>
-                        <button className="text-gray-400 hover:text-gray-600 transition-colors">
-                          <MoreVertical size={16} />
-                        </button>
-                      </div>
-                    </td>
+                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-center">
+                       {['Waiting to Schedule L1', 'Scheduled L1', 'Completed L1'].includes(candidate.status) && candidate.screeningScore
+                         ? (
+                           <div className="flex items-center justify-center">
+                             <span className="font-medium">{candidate.screeningScore}</span>
+                             <span className="text-gray-400 ml-1">/100</span>
+                           </div>
+                         )
+                         : <span className="text-gray-400">—</span>}
+                     </td>
+                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-center">
+                       {candidate.status === 'Completed L1' && candidate.interviewScore ? (
+                         <div className="flex items-center justify-center">
+                           <span className="font-medium">{candidate.interviewScore}</span>
+                           <span className="text-gray-400 ml-1">/100</span>
+                         </div>
+                       ) : <span className="text-gray-400">—</span>}
+                     </td>
+                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                       {new Date(candidate.appliedDate).toLocaleDateString()}
+                     </td>
+                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-center">
+                       <div className="flex items-center justify-center">
+                         <span className="font-medium">{candidate.jdApplied}</span>
+                         <span className="text-gray-400 ml-1">JD{candidate.jdApplied > 1 ? 's' : ''}</span>
+                       </div>
+                     </td>
+                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-center">
+                       {candidate.interviewDate ? (
+                         <div className="flex flex-col items-center">
+                           <span className="font-medium">{new Date(candidate.interviewDate).toLocaleDateString()}</span>
+                           <span className="text-gray-400 text-xs">({new Date(candidate.interviewDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})})</span>
+                         </div>
+                       ) : (
+                         <span className="text-gray-400">Not scheduled</span>
+                       )}
+                     </td>
+                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-center">
+                       {candidate.attendanceLog ? (
+                         <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
+                           candidate.attendanceLog === 'Attended' 
+                             ? 'bg-green-100 text-green-800' 
+                             : candidate.attendanceLog === 'No Show' 
+                             ? 'bg-red-100 text-red-800'
+                             : 'bg-yellow-100 text-yellow-800'
+                         }`}>
+                           {candidate.attendanceLog}
+                         </span>
+                       ) : (
+                         <span className="text-gray-400">—</span>
+                       )}
+                     </td>
+                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
+                       <button className="text-indigo-600 hover:text-indigo-900 flex items-center space-x-1 transition-colors mx-auto">
+                         <Eye size={16} />
+                         <span>View</span>
+                       </button>
+                     </td>
                   </tr>
                 );
               })}
