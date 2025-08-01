@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import {
   Users,
   Building2,
@@ -10,7 +10,8 @@ import {
   ChevronLeft,
   ChevronRight,
   Maximize2,
-  TrendingUp
+  TrendingUp,
+  Heart
 } from "lucide-react";
 import {
   LineChart,
@@ -29,11 +30,14 @@ const SuperAdminHome = () => {
   const [dateRange, setDateRange] = useState([null, null]);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [zoomedChart, setZoomedChart] = useState(null);
+  const datePickerButtonRef = useRef(null);
+  const chartCardRef = useRef(null);
 
   const userCounts = [
     { label: "Companies", count: 18, icon: Building2, color: "bg-blue-50", iconColor: "text-blue-600", bgGradient: "from-blue-500 to-blue-600" },
     { label: "Recruiters", count: 45, icon: UserCheck, color: "bg-green-50", iconColor: "text-green-600", bgGradient: "from-green-500 to-green-600" },
     { label: "Candidates", count: 230, icon: Users, color: "bg-purple-50", iconColor: "text-purple-600", bgGradient: "from-purple-500 to-purple-600" },
+    { label: "Happy Customers", count: 156, icon: Heart, color: "bg-pink-50", iconColor: "text-pink-600", bgGradient: "from-pink-500 to-pink-600" },
     { label: "Feedback (Last Week)", count: 18, icon: MessageCircle, color: "bg-orange-50", iconColor: "text-orange-600", bgGradient: "from-orange-500 to-orange-600" },
   ];
 
@@ -108,24 +112,48 @@ const SuperAdminHome = () => {
       { name: "Jane Smith", email: "jane@example.com", joined: "2025-07-23" },
       { name: "Alex Johnson", email: "alex@example.com", joined: "2025-07-24" },
       { name: "Sarah Wilson", email: "sarah@example.com", joined: "2025-07-25" },
+      { name: "Michael Brown", email: "michael@example.com", joined: "2025-07-26" },
+      { name: "Emily Davis", email: "emily@example.com", joined: "2025-07-27" },
+      { name: "David Wilson", email: "david@example.com", joined: "2025-07-28" },
+      { name: "Lisa Anderson", email: "lisa@example.com", joined: "2025-07-29" },
+      { name: "Robert Taylor", email: "robert@example.com", joined: "2025-07-30" },
+      { name: "Amanda Garcia", email: "amanda@example.com", joined: "2025-07-31" },
     ],
     recruiters: [
       { name: "Mike Johnson", email: "mike@example.com", joined: "2025-07-21" },
       { name: "Emily Davis", email: "emily@example.com", joined: "2025-07-23" },
       { name: "Robert Brown", email: "robert@example.com", joined: "2025-07-24" },
       { name: "Lisa Garcia", email: "lisa@example.com", joined: "2025-07-25" },
+      { name: "James Wilson", email: "james@example.com", joined: "2025-07-26" },
+      { name: "Jennifer Lee", email: "jennifer@example.com", joined: "2025-07-27" },
+      { name: "Thomas Anderson", email: "thomas@example.com", joined: "2025-07-28" },
+      { name: "Maria Rodriguez", email: "maria@example.com", joined: "2025-07-29" },
+      { name: "Christopher Martinez", email: "chris@example.com", joined: "2025-07-30" },
+      { name: "Jessica Thompson", email: "jessica@example.com", joined: "2025-07-31" },
     ],
     jobs: [
       { title: "Frontend Developer", company: "TechSoft", posted: "2025-07-22" },
       { title: "Data Analyst", company: "FinCorp", posted: "2025-07-23" },
       { title: "UX Designer", company: "Creative Inc", posted: "2025-07-24" },
       { title: "Backend Engineer", company: "DevCorp", posted: "2025-07-25" },
+      { title: "Product Manager", company: "InnovateTech", posted: "2025-07-26" },
+      { title: "DevOps Engineer", company: "CloudSys", posted: "2025-07-27" },
+      { title: "Mobile Developer", company: "AppWorks", posted: "2025-07-28" },
+      { title: "QA Engineer", company: "TestPro", posted: "2025-07-29" },
+      { title: "UI Designer", company: "DesignHub", posted: "2025-07-30" },
+      { title: "System Architect", company: "ArchTech", posted: "2025-07-31" },
     ],
     feedbacks: [
       { name: "Rahul", message: "Great platform!", date: "2025-07-23" },
       { name: "Anjali", message: "Easy to navigate.", date: "2025-07-24" },
       { name: "Priya", message: "Excellent features!", date: "2025-07-25" },
       { name: "Vikram", message: "Very user-friendly!", date: "2025-07-26" },
+      { name: "Sneha", message: "Amazing experience!", date: "2025-07-27" },
+      { name: "Arjun", message: "Highly recommended!", date: "2025-07-28" },
+      { name: "Meera", message: "Outstanding service!", date: "2025-07-29" },
+      { name: "Karthik", message: "Best platform ever!", date: "2025-07-30" },
+      { name: "Divya", message: "Love the interface!", date: "2025-07-31" },
+      { name: "Rohan", message: "Fantastic features!", date: "2025-08-01" },
     ],
   };
 
@@ -169,31 +197,114 @@ const SuperAdminHome = () => {
     setDateRange([null, null]);
   };
 
+  // Close date picker on scroll and click outside
+  useEffect(() => {
+    const handleScroll = () => {
+      if (showDatePicker) {
+        console.log('Scroll detected, closing date picker');
+        setShowDatePicker(false);
+      }
+    };
+
+    const handleClickOutside = (event) => {
+      if (showDatePicker && datePickerButtonRef.current && !datePickerButtonRef.current.contains(event.target)) {
+        const dropdown = document.querySelector('[data-date-picker-dropdown]');
+        if (!dropdown || !dropdown.contains(event.target)) {
+          setShowDatePicker(false);
+        }
+      }
+    };
+
+    // Add multiple listeners for comprehensive scroll detection
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('wheel', handleScroll, { passive: true });
+    document.addEventListener('scroll', handleScroll, { passive: true });
+    document.addEventListener('wheel', handleScroll, { passive: true });
+    document.body.addEventListener('scroll', handleScroll, { passive: true });
+    document.body.addEventListener('wheel', handleScroll, { passive: true });
+    document.documentElement.addEventListener('scroll', handleScroll, { passive: true });
+    document.documentElement.addEventListener('wheel', handleScroll, { passive: true });
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('wheel', handleScroll);
+      document.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('wheel', handleScroll);
+      document.body.removeEventListener('scroll', handleScroll);
+      document.body.removeEventListener('wheel', handleScroll);
+      document.documentElement.removeEventListener('scroll', handleScroll);
+      document.documentElement.removeEventListener('wheel', handleScroll);
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showDatePicker]);
+
+  // Close zoomed chart on scroll and click outside
+  useEffect(() => {
+    const handleScroll = () => {
+      if (zoomedChart) {
+        console.log('Scroll detected, closing zoomed chart');
+        setZoomedChart(null);
+      }
+    };
+
+    const handleClickOutside = (event) => {
+      if (zoomedChart && chartCardRef.current && !chartCardRef.current.contains(event.target)) {
+        setZoomedChart(null);
+      }
+    };
+
+    // Add multiple listeners for comprehensive scroll detection
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('wheel', handleScroll, { passive: true });
+    document.addEventListener('scroll', handleScroll, { passive: true });
+    document.addEventListener('wheel', handleScroll, { passive: true });
+    document.body.addEventListener('scroll', handleScroll, { passive: true });
+    document.body.addEventListener('wheel', handleScroll, { passive: true });
+    document.documentElement.addEventListener('scroll', handleScroll, { passive: true });
+    document.documentElement.addEventListener('wheel', handleScroll, { passive: true });
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('wheel', handleScroll);
+      document.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('wheel', handleScroll);
+      document.body.removeEventListener('scroll', handleScroll);
+      document.body.removeEventListener('wheel', handleScroll);
+      document.documentElement.removeEventListener('scroll', handleScroll);
+      document.documentElement.removeEventListener('wheel', handleScroll);
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [zoomedChart]);
+
   const renderTable = (title, headers, rows) => (
     <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 hover:shadow-2xl transition-all duration-300">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
         <span className="text-sm text-gray-500">{rows.length} entries</span>
       </div>
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="text-left text-gray-600 bg-gray-50 font-medium">
-              {headers.map((h, idx) => (
-                <th key={idx} className="py-3 px-4 rounded-l-lg first:rounded-l-lg last:rounded-r-lg">{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row, idx) => (
-              <tr key={idx} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
-                {Object.values(row).map((val, idy) => (
-                  <td key={idy} className="py-3 px-4 text-gray-700">{val}</td>
+      <div className="overflow-hidden">
+        <div className="overflow-y-auto max-h-80 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+          <table className="w-full text-sm">
+            <thead className="sticky top-0 bg-gray-50 z-10">
+              <tr className="text-left text-gray-600 font-medium">
+                {headers.map((h, idx) => (
+                  <th key={idx} className="py-3 px-4 rounded-l-lg first:rounded-l-lg last:rounded-r-lg">{h}</th>
                 ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {rows.map((row, idx) => (
+                <tr key={idx} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                  {Object.values(row).map((val, idy) => (
+                    <td key={idy} className="py-3 px-4 text-gray-700">{val}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
@@ -305,35 +416,48 @@ const SuperAdminHome = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 p-6">
+      <style jsx>{`
+        .scrollbar-thin::-webkit-scrollbar {
+          width: 6px;
+        }
+        .scrollbar-thin::-webkit-scrollbar-track {
+          background: #f1f5f9;
+          border-radius: 3px;
+        }
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+          background: #cbd5e1;
+          border-radius: 3px;
+        }
+        .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+          background: #94a3b8;
+        }
+      `}</style>
       <div className="max-w-7xl mx-auto">
         
-        {/* Header */}
-        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 mb-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">Super Admin Dashboard</h1>
-              <p className="text-gray-600">Monitor platform performance and user activities</p>
-            </div>
-            <div className="flex items-center space-x-2">
-              <TrendingUp className="w-8 h-8 text-blue-600" />
-              <div className="text-right">
-                <p className="text-sm text-gray-500">Total Users</p>
-                <p className="text-2xl font-bold text-gray-900">293</p>
-              </div>
-            </div>
-          </div>
-        </div>
+                 {/* Header */}
+         <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 mb-8">
+           <div className="flex items-center justify-between">
+             <div>
+               <h1 className="text-3xl font-bold text-gray-900 mb-2">Super Admin Dashboard</h1>
+               <p className="text-gray-600">Monitor platform performance and user activities</p>
+             </div>
+             <div className="text-right">
+               <p className="text-sm text-gray-500">Total Users</p>
+               <p className="text-2xl font-bold text-gray-900">293</p>
+             </div>
+           </div>
+         </div>
 
         {/* Stat Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
           {userCounts.map(({ label, count, icon: Icon, color, iconColor, bgGradient }) => (
             <div key={label} className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 hover:shadow-2xl transition-all duration-300">
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex items-start justify-between">
                 <div className={`p-3 rounded-xl bg-gradient-to-r ${bgGradient} text-white shadow-lg`}>
                   <Icon className="w-6 h-6" />
                 </div>
-                <div className="text-right">
-                  <p className="text-sm font-medium text-gray-500">{label}</p>
+                <div className="text-right flex-1 ml-4">
+                  <p className="text-sm font-medium text-gray-500 mb-1">{label}</p>
                   <p className="text-3xl font-bold text-gray-900">{count}</p>
                 </div>
               </div>
@@ -382,15 +506,16 @@ const SuperAdminHome = () => {
             'Members Overview',
             `${filter} breakdown - ${getDateRangeLabel()}`,
             <div className="flex items-center space-x-2">
-              <div className="relative">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setShowDatePicker(!showDatePicker);
-                  }}
-                  className="flex items-center space-x-2 text-sm text-gray-600 bg-gray-50 hover:bg-gray-100 px-3 py-2 rounded-lg transition-colors"
-                  title="Select Date Range"
-                >
+                             <div className="relative">
+                 <button
+                   ref={datePickerButtonRef}
+                   onClick={(e) => {
+                     e.stopPropagation();
+                     setShowDatePicker(!showDatePicker);
+                   }}
+                   className="flex items-center space-x-2 text-sm text-gray-600 bg-gray-50 hover:bg-gray-100 px-3 py-2 rounded-lg transition-colors"
+                   title="Select Date Range"
+                 >
                   <Calendar className="w-4 h-4" />
                   <span>{getDateRangeLabel()}</span>
                   {(dateRange[0] || dateRange[1]) && (
@@ -407,7 +532,7 @@ const SuperAdminHome = () => {
                 </button>
 
                 {showDatePicker && (
-                  <div className="absolute right-0 top-full mt-2 bg-white rounded-2xl shadow-2xl border border-gray-200 p-6 z-50 w-80">
+                  <div className="absolute right-0 top-full mt-2 bg-white rounded-2xl shadow-2xl border border-gray-200 p-6 z-50 w-80" data-date-picker-dropdown>
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="font-semibold text-gray-900">Filter by Date</h3>
                       <button
@@ -510,9 +635,9 @@ const SuperAdminHome = () => {
           {renderTable("Recent Feedbacks", ["Name", "Message", "Date"], recentData.feedbacks)}
         </div>
 
-        {/* Zoomed Chart Modal */}
-        {zoomedChart && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                 {/* Zoomed Chart Modal */}
+         {zoomedChart && (
+           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" ref={chartCardRef}>
             <div className="bg-white rounded-2xl shadow-2xl w-full max-w-6xl p-8 relative max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between mb-6">
                 <div>
@@ -570,7 +695,7 @@ const SuperAdminHome = () => {
                         </button>
 
                         {showDatePicker && (
-                          <div className="absolute right-0 top-full mt-2 bg-white rounded-2xl shadow-2xl border border-gray-200 p-6 z-50 w-80">
+                          <div className="absolute right-0 top-full mt-2 bg-white rounded-2xl shadow-2xl border border-gray-200 p-6 z-50 w-80" data-date-picker-dropdown>
                             <div className="flex items-center justify-between mb-4">
                               <h3 className="font-semibold text-gray-900">Filter by Date</h3>
                               <button
