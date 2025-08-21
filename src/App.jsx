@@ -5,11 +5,11 @@ import Register from './pages/auth/candidateRegister.jsx';
 import Footer from './pages/common/Footer.jsx';
 import Header from './pages/common/Header.jsx';
 import FeedbackForm from './pages/common/Feedback.jsx';
-import SupportForm from './pages/common/HelpSupport.jsx'; 
+import SupportForm from './components/common/HelpSupport.jsx'; 
 import CompanyRegisterForm from './pages/companyAdmin/CompanyRegister.jsx';
 import RMSDashboard from './pages/companyAdmin/Dashboard.jsx';
 import HrRegister from './pages/companyAdmin/HR/CreateHR.jsx';
-import ForgotPassword from './pages/common/ForgetPassword.jsx';
+import ForgotPassword from './components/common/ForgetPassword.jsx';
 import InterviewScore from './pages/hr/InterviewReports.jsx';
 import InterviewDetail from './pages/hr/InterviewDetails.jsx';
 import HRDashboard from './pages/hr/Dashboard.jsx';
@@ -21,6 +21,8 @@ import CandidateSidebar from './pages/Candidate/ApplyToJob.jsx';
 import HRProfilePage from './pages/hr/hrprofile.jsx';
 import HRList from './pages/companyAdmin/HR/HRList.jsx';
 import CompanyAdminDashboard from './pages/companyAdmin/HR/Home.jsx';
+import JDListStatus from './pages/hr/JD/JDListStatus.jsx';
+import CandidateManage from './pages/hr/CandidateManage.jsx';
 
 
 function App() {
@@ -51,6 +53,9 @@ function App() {
         <Route path="/hrprofile" element={<HRProfilePage />} />
         <Route path="/hrprofile/:hrId" element={<HRProfilePage />} />
         {/* <Route path="/hrdashboard" element={<HRDashboard />} /> */}
+        <Route path="/jdliststatus" element={<JDListStatus />} />
+        <Route path="/candidatemanage" element={<CandidateManage />} />
+       
       
         {/* Removed routes for Header, Footer, and CandidateBox. Use them only inside page components. */}
          {/* Catch-all route for 404 Not Found */}

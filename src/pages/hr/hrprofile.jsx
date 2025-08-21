@@ -161,11 +161,30 @@ const socialLinks = [
 
 const HRProfilePage = ({ selectedHRId = 1 }) => {
   const { hrId } = useParams();
-  const initialHRId = hrId ? parseInt(hrId) : selectedHRId;
+  const isNewProfile = hrId === 'new';
+  const initialHRId = isNewProfile ? null : (hrId ? parseInt(hrId) : selectedHRId);
   const [currentHRId, setCurrentHRId] = useState(initialHRId);
-  const selectedHR = hrList.find((hr) => hr.id === currentHRId) || hrList[0];
+  
+  // Default empty profile for new HR
+  const emptyProfile = {
+    name: "",
+    role: "",
+    employeeId: "",
+    reportingManager: "",
+    workLocation: "",
+    joiningDate: "",
+    email: "",
+    phoneNumber: "",
+    linkedin: "",
+    department: "",
+    location: "",
+    experience: "",
+    status: "Active"
+  };
+  
+  const selectedHR = isNewProfile ? emptyProfile : (hrList.find((hr) => hr.id === currentHRId) || hrList[0]);
   const [profileImg] = useState(selectedHR.profileImage);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState(isNewProfile ? emptyProfile : {
     name: selectedHR.name || "",
     role: selectedHR.role || "",
     employeeId: selectedHR.employeeId || "",
@@ -182,21 +201,23 @@ const HRProfilePage = ({ selectedHRId = 1 }) => {
 
   // Update form data when selected HR changes
   useEffect(() => {
-    setFormData({
-      name: selectedHR.name || "",
-      role: selectedHR.role || "",
-      employeeId: selectedHR.employeeId || "",
-      reportingManager: selectedHR.reportingManager || "",
-      workLocation: selectedHR.workLocation || "",
-      joiningDate: selectedHR.joiningDate || "",
-      email: selectedHR.email || "",
-      phoneNumber: selectedHR.phoneNumber || "",
-      linkedin: selectedHR.linkedin || "",
-      department: selectedHR.department || "",
-      location: selectedHR.location || "",
-      experience: selectedHR.experience || "",
-    });
-  }, [selectedHR]);
+    if (!isNewProfile) {
+      setFormData({
+        name: selectedHR.name || "",
+        role: selectedHR.role || "",
+        employeeId: selectedHR.employeeId || "",
+        reportingManager: selectedHR.reportingManager || "",
+        workLocation: selectedHR.workLocation || "",
+        joiningDate: selectedHR.joiningDate || "",
+        email: selectedHR.email || "",
+        phoneNumber: selectedHR.phoneNumber || "",
+        linkedin: selectedHR.linkedin || "",
+        department: selectedHR.department || "",
+        location: selectedHR.location || "",
+        experience: selectedHR.experience || "",
+      });
+    }
+  }, [selectedHR, isNewProfile]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -204,8 +225,16 @@ const HRProfilePage = ({ selectedHRId = 1 }) => {
   };
 
   const handleSave = () => {
-    console.log("Saving updated profile:", formData);
-    alert("Profile updated successfully! (Check console for details)");
+    if (isNewProfile) {
+      console.log("Creating new HR profile:", formData);
+      alert("New HR profile created successfully! (Check console for details)");
+      // Here you would typically make an API call to save the new HR profile
+      // After successful save, you might want to navigate back to the HR list
+      // navigate('/hrlist');
+    } else {
+      console.log("Updating HR profile:", formData);
+      alert("Profile updated successfully! (Check console for details)");
+    }
   };
 
   // Reusable field

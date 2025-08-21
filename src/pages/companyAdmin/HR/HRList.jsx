@@ -317,11 +317,11 @@ function HRList() {
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6 text-center">Company Admin Screen</h1>
+        {/* <h1 className="text-3xl font-bold mb-6 text-center">Company Admin Screen</h1> */}
         <div className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
           <div className="flex items-center space-x-3 w-full sm:w-auto">
             <label htmlFor="jd-filter" className="text-sm font-semibold text-gray-600">
-              Filter by JD:
+              Filter by Department:
             </label>
             <select
               id="jd-filter"
@@ -331,14 +331,14 @@ function HRList() {
             >
               {jdTitles.map((title) => (
                 <option key={title} value={title}>
-                  {title === "all" ? "All JDs" : title}
+                  {title === "all" ? "All Departments" : title}
                 </option>
               ))}
             </select>
           </div>
           <div className="flex items-center space-x-3 w-full sm:w-auto">
             <label htmlFor="hr-search" className="text-sm font-semibold text-gray-600">
-              Search HR by Name:
+              Search HR:
             </label>
             <input
               id="hr-search"
@@ -348,6 +348,12 @@ function HRList() {
               placeholder="Enter HR name"
               className="w-full sm:w-60 rounded-md border border-gray-300 px-3 py-1 text-sm bg-white hover:bg-gray-50 focus:ring-2 focus:ring-indigo-500"
             />
+            <button
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium transition-colors"
+              onClick={() => navigate('/hrprofile/new')}
+            >
+              Create HR
+            </button>
           </div>
         </div>
         {/* HR List as cards */}
